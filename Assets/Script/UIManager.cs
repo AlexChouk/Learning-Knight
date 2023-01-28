@@ -15,7 +15,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        DisplayMain();
+        //DisplayMain();
+        DisplayInGame();
     }
     
     private void ClearElements()
