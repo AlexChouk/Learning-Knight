@@ -12,11 +12,12 @@ public class UIManager : MonoBehaviour
     }
     
     [SerializeField] private List<UIElement> uiElements = new List<UIElement>();
+    
+    private Timer _timer;
 
     private void Start()
     {
-        //DisplayMain();
-        DisplayInGame();
+        DisplayMain();
     }
     
     private void ClearElements()
