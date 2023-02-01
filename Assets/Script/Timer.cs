@@ -39,8 +39,8 @@ public class Timer : MonoBehaviour
     
     public void startTimer(float number) 
     {
-    	_timerIsRunning = true;
     	_timeRemaining = number;
+    	_timerIsRunning = true;
     }
     
     public void stopTimer() 
