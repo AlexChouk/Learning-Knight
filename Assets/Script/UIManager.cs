@@ -22,7 +22,17 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+	  resume = GameObject.Find("Resume");
+	  main = GameObject.Find("Background_main");
         DisplayMain();
+	  isIntro = true;
+	  _timer.startTimer(3.0f);
+
+	  resume.SetActive(true);
+	  main.SetActive(false);
+
+	  StartCoroutine(Fade(3.0f, false));
+	//DisplayLevels();
     }
     
     private void ClearElements()
@@ -79,16 +89,9 @@ public class UIManager : MonoBehaviour
     public void DisplayMain()
     {
         DisplayMenu("Main");
-	  isIntro = true;
-	  _timer.startTimer(3.0f);
 
-	  resume = GameObject.Find("Resume");
-	  main = GameObject.Find("Background_main");
-
-	  resume.SetActive(true);
-	  main.SetActive(false);
-
-	  StartCoroutine(Fade(3.0f, false));
+	  resume.SetActive(false);
+	  main.SetActive(true);
     }
 
     void Update()
@@ -116,10 +119,11 @@ public class UIManager : MonoBehaviour
         DisplayMenu("Resume");
     }
     
-    public void DisplayResults()
+    public void DisplayResults(string text)
     {
     	  Time.timeScale = 0f;
         DisplayMenu("Results");
+	  GameObject.Find("Text_Title_res").GetComponent<TextMeshProUGUI>().text = text;
     }
     
     public void DisplayOptions()
