@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
 
     private TextMeshProUGUI _timeText;
     private float _timeRemaining;
+    public float TimeRemaining => _timeRemaining;
     
     public bool _timerIsRunning;
     public bool TimerIsRunning => _timerIsRunning;

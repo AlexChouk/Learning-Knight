@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
    
     [SerializeField] private Timer _timer;
     private bool isIntro;
+    private float timeIntro;
     private GameObject resume;
     private GameObject main;
 
@@ -25,13 +26,7 @@ public class UIManager : MonoBehaviour
 	  resume = GameObject.Find("Resume");
 	  main = GameObject.Find("Background_main");
         DisplayMain();
-	  isIntro = true;
-	  _timer.startTimer(3.0f);
-
-	  resume.SetActive(true);
-	  main.SetActive(false);
-
-	  StartCoroutine(Fade(3.0f, false));
+	  displayIntro();
 	//DisplayLevels();
     }
     
@@ -60,31 +55,57 @@ public class UIManager : MonoBehaviour
         ShowElement(menuName);
     }
 
-	IEnumerator Fade(float fadeTime, bool fadeIn)
+    IEnumerator Fade(float fadeTime, bool fadeIn)
     {
         float elapsedTime = 0.0f;
 
 	  Image img = GameObject.Find("Resume").GetComponent<Image>();
 	  TextMeshProUGUI text = GameObject.Find("Text_Resume").GetComponent<TextMeshProUGUI>();
         
-	  Color c = img.color;
-    
+	  Color img_c = img.color;
+    	  Color text_c = text.color;
+
 	  while (elapsedTime < fadeTime)
         {
             yield return null;
             elapsedTime += Time.deltaTime;
             if (fadeIn)
             {
-                  c.a = Mathf.Clamp01(elapsedTime / fadeTime);
+                  img_c.a = Mathf.Clamp01(elapsedTime / fadeTime);
+                  text_c.a = Mathf.Clamp01(elapsedTime / fadeTime);  
             }
             else
             {
-                 c.a = 1f - Mathf.Clamp01(elapsedTime / fadeTime);           
+                 img_c.a = 1f - Mathf.Clamp01(elapsedTime / fadeTime);    
+                 text_c.a = 1f - Mathf.Clamp01(elapsedTime / fadeTime);         
 		}
-            img.color = c;
-		text.color = c;
+            img.color = img_c;
+		text.color = text_c;
         }
     }
+
+	private void displayIntro()
+	{
+	  isIntro = true;
+	  timeIntro = 8.0f;
+	  _timer.startTimer(timeIntro);
+
+	  resume.SetActive(true);
+	  main.SetActive(false);
+
+	  Image img = resume.GetComponent<Image>();
+	  TextMeshProUGUI text = GameObject.Find("Text_Resume").GetComponent<TextMeshProUGUI>();
+	  
+ 	  Color img_c = img.color;
+    	  Color text_c = text.color;
+
+	  img_c.a = 0.0f;
+	  text_c.a = 0.0f;
+
+	  img.color = img_c;
+	  text.color = text_c;
+	  StartCoroutine(Fade(timeIntro/3.0f, true));
+	}
 
     public void DisplayMain()
     {
@@ -96,6 +117,10 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+	if (_timer.TimerIsRunning && isIntro && _timer.TimeRemaining <= timeIntro/3.0f)
+	{
+		StartCoroutine(Fade(_timer.TimeRemaining, false));
+	}
 
 	if (!_timer.TimerIsRunning && isIntro)
 	{
