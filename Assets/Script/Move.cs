@@ -4,39 +4,70 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    private float speed = 0.2f;
-    public float currCountdownValue;
-    public bool isSprinting = false;
+    private static float DEFAULT_SPEED = 2.0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private static float SPRINT_SPEED = 6.0f;
+    public float speed = 0;
+    public bool isSprinting = false;
+    public bool isOnCooldown = false;
+    private Jump jump;
+    private Slide slide;
+    public float sprint_cooldown;
+
+    public gameManager gm;
+
+    void Awake()
     {
+        jump = gameObject.GetComponent<Jump>();
+        slide = gameObject.GetComponent<Slide>();
+        setSpeed(DEFAULT_SPEED);
+        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
         
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector2(transform.position.x + speed, transform.position.y);
+        if(! gm.isCurrentlyFighting())
+            transform.position = new Vector2(transform.position.x + speed, transform.position.y);
         
         if(! isSprinting){
-            speed = 0.2f;
+            setSpeed(DEFAULT_SPEED);
         }
         
-        Debug.Log("out");
-        if (Input.GetButtonDown("Fire1") )
+        if (Input.GetButtonDown("Fire1") && !isOnCooldown && ! gm.isCurrentlyFighting())
         {
-            isSprinting = true;
-            StartCoroutine(StartSprint());
+            if(! jump.isJumping && ! slide.isSliding){
+                isSprinting = true;
+                StartCoroutine(StartSprint());
+            }
         }
-
-
     }
 
     public IEnumerator StartSprint() {
-            speed = 0.5f;
+            setSpeed(SPRINT_SPEED);
             yield return new WaitForSeconds(1f);
-            currCountdownValue--;
             isSprinting = false;
+            isOnCooldown = true;
+            StartCoroutine(SprintCooldown());
+    }
+
+    public IEnumerator SprintCooldown(){
+        yield return new WaitForSeconds(sprint_cooldown);
+        isOnCooldown = false;
+    }
+
+
+    public void setSpeed(float sp){
+        speed = sp/50;
+    }
+
+    public bool isSprintOnCooldown(){
+        return isOnCooldown;
+    }
+
+    public float cooldownDuration(){
+        return sprint_cooldown;
     }
 }
