@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class PT_UIManager : MonoBehaviour
 {
     [System.Serializable]
     public class UIElement
@@ -23,11 +23,11 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-	  resume = GameObject.Find("Resume");
-	  main = GameObject.Find("Background_main");
-        DisplayMain();
-	  displayIntro();
-	//DisplayLevels();
+	//resume = GameObject.Find("Resume");
+	//main = GameObject.Find("Background_main");
+        //DisplayMain();
+	//displayIntro();
+	DisplayLevels();
     }
     
     private void ClearElements()
@@ -128,38 +128,35 @@ public class UIManager : MonoBehaviour
 		main.SetActive(true);
 		isIntro = false;	
 	}
-
-
     }
 
     public void DisplayInGame()
     {
-    	  Time.timeScale = 1f;
+    	Time.timeScale = 1f;
         DisplayMenu("InGame");
     }
     
     public void DisplayPauseGame()
     {
-    	  Time.timeScale = 0f;
+    	Time.timeScale = 0f;
         DisplayMenu("Resume");
     }
     
-    public void DisplayResults(string text)
+    public void DisplayResults()
     {
-    	  Time.timeScale = 0f;
+    	Time.timeScale = 0f;
         DisplayMenu("Results");
-	  GameObject.Find("Text_Title_res").GetComponent<TextMeshProUGUI>().text = text;
     }
     
     public void DisplayOptions()
     {
-    	  Time.timeScale = 0f;
+    	Time.timeScale = 0f;
         DisplayMenu("Options");
     }
     
     public void DisplayLevels()
     {
-    	  Time.timeScale = 0f;
+    	Time.timeScale = 0f;
         DisplayMenu("Levels");
     }
 }

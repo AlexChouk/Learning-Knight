@@ -8,7 +8,6 @@ using TMPro;
 
 public class QuestionManager : MonoBehaviour
 {
-
     private string pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
     private string fileData;
     private string[] lines;
@@ -36,6 +35,21 @@ public class QuestionManager : MonoBehaviour
     
     public Timer _timer;
     
+    
+    public void setType(string type)
+    {
+    	if (type == "Maths")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	
+    	if (type == "French")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	 
+    }
+    
     // Start is called before the first frame update
     void Start()
     {	
@@ -45,7 +59,7 @@ public class QuestionManager : MonoBehaviour
         _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
         
-        	startQuestion();
+        startQuestion("Maths");
     }
 
     // Update is called once per frame
@@ -83,15 +97,14 @@ public class QuestionManager : MonoBehaviour
         }
     }
     
-    private void startQuestion() 
+    private void startQuestion(string type) 
     {
-    	
     	//get Type and Niveau from Level choice menu
     	isQuestionDisplay = false;
     	isRéponsesDisplay = false;
         
 	int rand = Range(1, 30);
-        getQuestion(rand);
+        getQuestion(rand, type);
         
         _timer.startTimer(5f);
 	    	
@@ -109,7 +122,7 @@ public class QuestionManager : MonoBehaviour
      	displayRéponses();
     }
     
-    private void getQuestion(int index) 
+    private void getQuestion(int index, string type) 
     {
     	if (System.IO.File.Exists(Application.dataPath+pathFile)) {
     		fileData = System.IO.File.ReadAllText(Application.dataPath+pathFile);
