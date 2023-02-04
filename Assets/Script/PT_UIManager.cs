@@ -146,16 +146,16 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayPauseGame()
     {
     	Time.timeScale = 0f;
-	maincamera.gameObject.SetActive(true);
-	ingameCamera.gameObject.SetActive(false);
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("Resume");
     }
     
     public void DisplayResults()
     {
     	Time.timeScale = 0f;
-	maincamera.gameObject.SetActive(true);
-	ingameCamera.gameObject.SetActive(false);
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("Results");
     }
     
