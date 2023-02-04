@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     GameObject canvasAth;
 
     private GameManager gm;
+    
     void Awake()
     {
         canvas = GameObject.Find("Timer");

@@ -20,14 +20,17 @@ public class PT_UIManager : MonoBehaviour
     private float timeIntro;
     private GameObject resume;
     private GameObject main;
+    
+    [SerializeField] public Camera maincamera;
+    [SerializeField] public Camera ingameCamera;
 
     private void Start()
     {
-	//resume = GameObject.Find("Resume");
-	//main = GameObject.Find("Background_main");
-        //DisplayMain();
-	//displayIntro();
-	DisplayLevels();
+	resume = GameObject.Find("Resume");
+	main = GameObject.Find("Background_main");
+        DisplayMain();
+	displayIntro();
+	//DisplayLevels();
     }
     
     private void ClearElements()
@@ -113,6 +116,8 @@ public class PT_UIManager : MonoBehaviour
 
 	  resume.SetActive(false);
 	  main.SetActive(true);
+	maincamera.gameObject.SetActive(true);
+	ingameCamera.gameObject.SetActive(false);
     }
 
     void Update()
@@ -133,30 +138,40 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayInGame()
     {
     	Time.timeScale = 1f;
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("InGame");
     }
     
     public void DisplayPauseGame()
     {
     	Time.timeScale = 0f;
+	maincamera.gameObject.SetActive(true);
+	ingameCamera.gameObject.SetActive(false);
         DisplayMenu("Resume");
     }
     
     public void DisplayResults()
     {
     	Time.timeScale = 0f;
+	maincamera.gameObject.SetActive(true);
+	ingameCamera.gameObject.SetActive(false);
         DisplayMenu("Results");
     }
     
     public void DisplayOptions()
     {
     	Time.timeScale = 0f;
+	maincamera.gameObject.SetActive(true);
+	ingameCamera.gameObject.SetActive(false);
         DisplayMenu("Options");
     }
     
     public void DisplayLevels()
     {
     	Time.timeScale = 0f;
+	maincamera.gameObject.SetActive(true);
+	ingameCamera.gameObject.SetActive(false);
         DisplayMenu("Levels");
     }
 }

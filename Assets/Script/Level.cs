@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Levels", menuName = "ScriptableObjects/Levels", order = 1)]
 public class Level : ScriptableObject 
 {     
-    [SerializeField] private Vector3 _playerSpawn = new Vector3(0f, 0f, 0f);
+    [SerializeField] private Vector3 _playerSpawn = new Vector3(100f, 100f, 0f);
     [SerializeField] private List<Vector3> _enemySpawn = new List<Vector3>();
     [SerializeField] private GameObject _levelPrefab;
     [SerializeField] private int _enemyNumber = 5;
