@@ -144,6 +144,7 @@ public class PT_UIManager : MonoBehaviour
     
     public void DisplayPauseGame()
     {
+    	Debug.Log("pause");
     	Time.timeScale = 0f;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
