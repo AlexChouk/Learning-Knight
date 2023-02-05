@@ -32,9 +32,11 @@ public class QuestionManager : MonoBehaviour
     
     public GameObject knight;
     public GameObject Ennemy;
+    public GameObject Questions;
     
     public Timer _timer;
-    
+    private GameManager _instance;
+    private GameManager GameManager => _instance ??= GameManager.Instance;
     
     public void setType(string type)
     {
@@ -59,12 +61,20 @@ public class QuestionManager : MonoBehaviour
         _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
         
-        startQuestion("Maths");
+        Questions = GameObject.Find("Questions");
+        //startQuestion("Maths");
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+     	
+     	if (GameManager.isCurrentlyFighting())
+     	{
+     		Questions.SetActive(true);
+     	}
+     	Questions.SetActive(false);
+     	
     	if (isQuestionDisplay) {	
 		if (!_timer.TimerIsRunning) {
 			isRéponsesDisplay = true;
@@ -88,6 +98,7 @@ public class QuestionManager : MonoBehaviour
         {
         	Debug.Log("YES!");
         	_timer.stopTimer();
+        	resetQuestion();
         	//porte le coup si monstre plus de pv repasse en phase exploration sinon continue
         }
         else 

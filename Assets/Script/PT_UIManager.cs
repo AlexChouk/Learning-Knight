@@ -26,11 +26,10 @@ public class PT_UIManager : MonoBehaviour
 
     private void Start()
     {
-	resume = GameObject.Find("Resume");
+	resume = GameObject.Find("Txt_Resume");
 	main = GameObject.Find("Background_main");
         DisplayMain();
 	displayIntro();
-	//DisplayLevels();
     }
     
     private void ClearElements()
@@ -62,7 +61,7 @@ public class PT_UIManager : MonoBehaviour
     {
         float elapsedTime = 0.0f;
 
-	  Image img = GameObject.Find("Resume").GetComponent<Image>();
+	  Image img = GameObject.Find("Txt_Resume").GetComponent<Image>();
 	  TextMeshProUGUI text = GameObject.Find("Text_Resume").GetComponent<TextMeshProUGUI>();
         
 	  Color img_c = img.color;
@@ -114,8 +113,8 @@ public class PT_UIManager : MonoBehaviour
     {
         DisplayMenu("Main");
 
-	  resume.SetActive(false);
-	  main.SetActive(true);
+	resume.SetActive(false);
+	main.SetActive(true);
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
     }
@@ -148,7 +147,7 @@ public class PT_UIManager : MonoBehaviour
     	Time.timeScale = 0f;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
-        DisplayMenu("Resume");
+        DisplayMenu("Pause");
     }
     
     public void DisplayResults()

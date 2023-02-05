@@ -28,7 +28,6 @@ public class LevelButtonUI : MonoBehaviour
 
     public void OnButtonClick()
     {
-    	print(GameManager.PT_uiManager);
         GameManager.PT_uiManager.DisplayInGame();
         GameManager.LevelManager.LoadLevel(_currentLevel);
     }
