@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
+    {
         isSprintOnCooldown = hero.GetComponent<Move>().isSprintOnCooldown();
 
         if(isSprintOnCooldown){
@@ -66,6 +68,7 @@ public class UIManager : MonoBehaviour
             timer_color.GetComponent<Image>().color = new Color32(128,255,165,255);
             timer = 0;
         }
+    }
     }
 
 }

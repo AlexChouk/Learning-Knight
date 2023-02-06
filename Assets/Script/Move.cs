@@ -28,6 +28,8 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
+    {
         if(! gm.isCurrentlyFighting())
             transform.position = new Vector2(transform.position.x + speed, transform.position.y);
         
@@ -42,6 +44,7 @@ public class Move : MonoBehaviour
                 StartCoroutine(StartSprint());
             }
         }
+       }
     }
 
     public IEnumerator StartSprint() {

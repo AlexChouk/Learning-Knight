@@ -21,8 +21,11 @@ public class PT_UIManager : MonoBehaviour
     private GameObject resume;
     private GameObject main;
     
+    public bool isPaused;
+    
     [SerializeField] public Camera maincamera;
     [SerializeField] public Camera ingameCamera;
+    
     private GameManager _instance;
     private GameManager GameManager => _instance ??= GameManager.Instance;
 
@@ -115,6 +118,8 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayMain()
     {
         DisplayMenu("Main");
+    	Time.timeScale = 0f;
+    	isPaused = true;
 
 	resume.SetActive(false);
 	main.SetActive(true);
@@ -140,6 +145,7 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayInGame()
     {
     	Time.timeScale = 1f;
+    	isPaused = false;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("InGame");
@@ -148,12 +154,15 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayPauseGame()
     {
     	Time.timeScale = 0f;
+    	isPaused = true;
         DisplayMenu("Pause");
+        print(Time.timeScale);
     }
     
     public void DisplayResults()
     {
     	Time.timeScale = 0f;
+    	isPaused = true;
         DisplayMenu("Results");
     }
         
@@ -166,6 +175,7 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayOptions()
     {
     	Time.timeScale = 0f;
+    	isPaused = true;
     	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
 	
@@ -175,6 +185,7 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayOptionsInGame()
     {
     	Time.timeScale = 0f;
+    	isPaused = true;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
 	ShowElement("Options_in");
@@ -183,6 +194,7 @@ public class PT_UIManager : MonoBehaviour
     public void DisplayLevels()
     {
     	Time.timeScale = 0f;
+    	isPaused = true;
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
         DisplayMenu("Levels");

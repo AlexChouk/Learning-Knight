@@ -5264,7 +5264,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -10788,7 +10788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -140, y: 0}
+  m_AnchoredPosition: {x: -91, y: 59}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1208241113
@@ -10898,7 +10898,7 @@ GameObject:
   - component: {fileID: 1216967446}
   - component: {fileID: 1216967445}
   m_Layer: 5
-  m_Name: Btn_Quit
+  m_Name: Btn_Levels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10969,9 +10969,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1415743439}
-        m_TargetAssemblyTypeName: QuitController, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 1415743438}
+        m_TargetAssemblyTypeName: PT_UIManager, Assembly-CSharp
+        m_MethodName: DisplayLevels
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11625,6 +11625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1284827208}
   - component: {fileID: 1284827207}
+  - component: {fileID: 1284827209}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -11644,7 +11645,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 463270a7b99eb7616b018d4c0c81e1ae, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -11743,6 +11744,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1284827209
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284827206}
+  m_Enabled: 1
 --- !u!1 &1288636389
 GameObject:
   m_ObjectHideFlags: 0
@@ -16838,6 +16847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1891755198}
   - component: {fileID: 1891755199}
+  - component: {fileID: 1891755200}
   m_Layer: 5
   m_Name: Slider_Volume
   m_TagString: Untagged
@@ -16920,6 +16930,22 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1891755200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891755197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f47e19d234a0fb0a953789e4bc1608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundtrack:
+  - {fileID: 8300000, guid: 463270a7b99eb7616b018d4c0c81e1ae, type: 3}
+  volumeSlider: {fileID: 1891755199}
+  audio: {fileID: 1284827206}
 --- !u!1 &1896567647
 GameObject:
   m_ObjectHideFlags: 0
@@ -19183,7 +19209,7 @@ GameObject:
   - component: {fileID: 2131127809}
   - component: {fileID: 2131127808}
   m_Layer: 5
-  m_Name: Text_Quit
+  m_Name: Text_Levels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19229,7 +19255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quitter
+  m_text: Niveaux
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 73590c3df20e09d618fe0d4da3c99666, type: 2}
   m_sharedMaterial: {fileID: -663480043352037261, guid: 73590c3df20e09d618fe0d4da3c99666, type: 2}

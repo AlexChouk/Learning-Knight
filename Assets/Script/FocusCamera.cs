@@ -28,6 +28,8 @@ public class FocusCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
+    {
         camSpeed = knightMove.speed;
         if(! gm.isCurrentlyFighting()){
             transform.position = new Vector3(transform.position.x + camSpeed, transform.position.y, -15);
@@ -35,6 +37,7 @@ public class FocusCamera : MonoBehaviour
         else{
             startFightFocus();
         }
+     }
     }
 
     void startFightFocus(){

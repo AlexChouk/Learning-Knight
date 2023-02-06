@@ -11,7 +11,19 @@ public class AudioManager : MonoBehaviour
     public GameObject audio;
 
     AudioSource audioSource;
+    private float volume = 0.4f;
 
+    public float audioVolume {
+        get
+        {
+            return PlayerPrefs.GetFloat(".audioVolume");
+        }
+        set
+        {
+            PlayerPrefs.SetFloat(".audioVolume", volume);
+        }
+    }
+    
     void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
@@ -49,6 +61,7 @@ public class AudioManager : MonoBehaviour
     //Called when Slider is moved
     void changeVolume(float sliderValue)
     {
+    	volume = sliderValue;
         audioSource.volume = sliderValue;
     }
 
