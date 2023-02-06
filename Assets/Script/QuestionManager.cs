@@ -62,10 +62,8 @@ public class QuestionManager : MonoBehaviour
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
         
         Questions = GameObject.Find("Questions");
-        //startQuestion("Maths");
     }
     
-    // Update is called once per frame
     void Update()
     {
      	

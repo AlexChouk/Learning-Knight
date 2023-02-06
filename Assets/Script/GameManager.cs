@@ -12,9 +12,11 @@ public class GameManager : MonoBehaviour
  	
     [SerializeField] private LevelManager _levelManager;
     [SerializeField] private PT_UIManager _pt_uiManager;
+    [SerializeField] private PauseManager _pauseManager;
     	
     public LevelManager LevelManager => _levelManager;
     public PT_UIManager PT_uiManager => _pt_uiManager;
+    public PauseManager PauseManager => _pauseManager;
     
     private void InitializeSingleton() {
 	if(Instance) 

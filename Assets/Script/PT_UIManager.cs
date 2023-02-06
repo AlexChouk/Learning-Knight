@@ -23,6 +23,8 @@ public class PT_UIManager : MonoBehaviour
     
     [SerializeField] public Camera maincamera;
     [SerializeField] public Camera ingameCamera;
+    private GameManager _instance;
+    private GameManager GameManager => _instance ??= GameManager.Instance;
 
     private void Start()
     {
@@ -144,27 +146,37 @@ public class PT_UIManager : MonoBehaviour
     
     public void DisplayPauseGame()
     {
-    	Debug.Log("pause");
     	Time.timeScale = 0f;
-	maincamera.gameObject.SetActive(false);
-	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("Pause");
     }
     
     public void DisplayResults()
     {
     	Time.timeScale = 0f;
-	maincamera.gameObject.SetActive(false);
-	ingameCamera.gameObject.SetActive(true);
         DisplayMenu("Results");
+    }
+        
+        
+    public void goBackOptions(string name)
+    {
+    	GameObject.Find(name).SetActive(false);
     }
     
     public void DisplayOptions()
     {
     	Time.timeScale = 0f;
-	maincamera.gameObject.SetActive(true);
+    	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
-        DisplayMenu("Options");
+	
+        ShowElement("Options");	 	
+    }
+    
+    public void DisplayOptionsInGame()
+    {
+    	Time.timeScale = 0f;
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
+	ShowElement("Options_in");
     }
     
     public void DisplayLevels()

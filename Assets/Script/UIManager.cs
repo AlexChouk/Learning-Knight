@@ -18,15 +18,15 @@ public class UIManager : MonoBehaviour
 
     private float timer = 0.0f;
 
-    GameObject canvas;
-    GameObject canvasSprint;
-    GameObject canvasAth;
+    private GameObject canvas;
+    private GameObject canvasSprint;
+    private GameObject canvasAth;
 
     private GameManager gm;
     
     void Awake()
     {
-        canvas = GameObject.Find("Timer");
+        canvas = GameObject.Find("TimerSprint");
         canvasSprint = GameObject.Find("SPRINT");
         canvasAth = GameObject.Find("ATH");
         timer_ui = canvas.GetComponent<TextMeshProUGUI>();

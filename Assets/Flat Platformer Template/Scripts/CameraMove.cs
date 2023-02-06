@@ -12,7 +12,7 @@ public class CameraMove : MonoBehaviour {
     private float dynamicSpeed;
     private Camera _cam;
 
-    void Start()
+    void StartMoving()
     {
         offset = new Vector2(Mathf.Abs(offset.x), offset.y);
         FindPlayer();

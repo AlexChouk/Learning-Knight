@@ -13,7 +13,7 @@ public class Level : ScriptableObject
     public int EnemyNumber => _enemyNumber;
     public List<Vector3> EnemySpawn => _enemySpawn;
     public GameObject LevelPrefab => _levelPrefab;
-              
+                 
     public bool IsLevelDone {
         get
         {

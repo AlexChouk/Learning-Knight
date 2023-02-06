@@ -7,6 +7,7 @@ using TMPro;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private List<Level> _levels = new List<Level>();
+    [SerializeField] private GameObject _playerParent;
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Transform _levelParent;
     [SerializeField] private GameObject _levelButton;
@@ -20,6 +21,12 @@ public class LevelManager : MonoBehaviour
     private GameManager _instance;
     private GameManager GameManager => _instance ??= GameManager.Instance;
            
+           
+    private void Awake()
+    {
+        _playerParent.gameObject.SetActive(false);
+    }
+    
     public void StartUI() 
     {
         GenerateButtons();
@@ -27,7 +34,6 @@ public class LevelManager : MonoBehaviour
 
     private void GenerateButtons() 
     {
-     
      	if(_levelButtonParent.childCount == 0)
      	{
      	   foreach (Level l in _levels) 
@@ -84,6 +90,7 @@ public class LevelManager : MonoBehaviour
         _currentLevel = level;
         ClearAllLevels();
         CreateLevel(level);
+        _playerParent.gameObject.SetActive(true);
         _playerTransform.position = level.PlayerSpawn;
     }
     
@@ -108,7 +115,7 @@ public class LevelManager : MonoBehaviour
     		displayResult(" Perdu !", "Recommencer");
     	}
     	
-    	if (_playerTransform.position.x > 300)
+    	if (_playerTransform.position.x >= GameObject.Find("Level").gameObject.transform.Find("Start_End/endPoint").gameObject.transform.position.x)
         {
             _currentLevel.IsLevelDone = true;
             displayResult(" Gagné !", "Niveau Suivant");

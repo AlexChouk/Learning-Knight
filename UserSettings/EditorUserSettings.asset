@@ -5,12 +5,6 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
-    RecentlyUsedSceneGuid-0:
-      value: 0552555307545e590e0b5c7b45765b151416492b7d7d7668757c4d62b1b03761
-      flags: 0
-    RecentlyUsedSceneGuid-1:
-      value: 06020c0007515e0f545c5f7a12770c4644151c7d787974682b2a1963e1e4653e
-      flags: 0
     UnityRemoteCompression:
       value: 337f73
       flags: 0
@@ -28,7 +22,7 @@ EditorUserSettings:
   m_VCDebugCmd: 0
   m_VCDebugOut: 0
   m_SemanticMergeMode: 2
-  m_DesiredImportWorkerCount: 6
+  m_DesiredImportWorkerCount: 2
   m_StandbyImportWorkerCount: 2
   m_IdleImportWorkerShutdownDelay: 60000
   m_VCShowFailedCheckout: 1
