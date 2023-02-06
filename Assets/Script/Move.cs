@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    private static float DEFAULT_SPEED = 2.0f;
-
+    private static float DEFAULT_SPEED = 3.0f;
     private static float SPRINT_SPEED = 6.0f;
     public float speed = 0;
     public bool isSprinting = false;

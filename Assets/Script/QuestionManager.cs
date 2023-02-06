@@ -192,4 +192,10 @@ public class QuestionManager : MonoBehaviour
 	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans4.GetComponentInChildren<TextMeshProUGUI>().text = "";
     }
+    
+    public void UseEnDeux()
+    {
+    	knight.GetComponent<ObjectManager>().EnDeux(Réponses, vraie);
+    	displayRéponses();
+    }
 }

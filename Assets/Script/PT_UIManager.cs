@@ -30,8 +30,9 @@ public class PT_UIManager : MonoBehaviour
     {
 	resume = GameObject.Find("Txt_Resume");
 	main = GameObject.Find("Background_main");
-        DisplayMain();
-	displayIntro();
+        //DisplayMain();
+	//DisplayIntro();
+	DisplayLevels();
     }
     
     private void ClearElements()
@@ -88,7 +89,7 @@ public class PT_UIManager : MonoBehaviour
         }
     }
 
-	private void displayIntro()
+	private void DisplayIntro()
 	{
 	  isIntro = true;
 	  timeIntro = 8.0f;

@@ -115,10 +115,12 @@ public class LevelManager : MonoBehaviour
     		displayResult(" Perdu !", "Recommencer");
     	}
     	
-    	if (_playerTransform.position.x >= GameObject.Find("Level").gameObject.transform.Find("Start_End/endPoint").gameObject.transform.position.x)
+    	if (_playerTransform.position.x >= 300) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
             _currentLevel.IsLevelDone = true;
             displayResult(" Gagné !", "Niveau Suivant");
+            //gagne un bonus EnDeux ?
+            //Augmente les statistiques du joueur
         }
     }
 }
