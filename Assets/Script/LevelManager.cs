@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public FocusCamera GameCamera;
          
     private Level _currentLevel;
+    private bool isResultDisplay;
     
     private GameManager _instance;
     private GameManager GameManager => _instance ??= GameManager.Instance;
@@ -30,6 +31,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         _playerParent.gameObject.SetActive(false);
+        isResultDisplay = false;
     }
     
     public void StartUI() 
@@ -115,6 +117,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(Level level) 
     {
         _currentLevel = level;
+    	 isResultDisplay = false;
         ClearAllLevels();
         CreateLevel(level);
         _playerParent.gameObject.SetActive(true);
@@ -132,6 +135,27 @@ public class LevelManager : MonoBehaviour
     {
          _resultsText.text = res;
          _resultsButtonText.text = button;
+    	 isResultDisplay = true;
+         
+         if (_resultsText.text == "Perdu")
+         {
+    		_nextResults.gameObject.SetActive(false);
+    		_reloadResults.gameObject.SetActive(true);
+    	 }
+    	 else
+    	 {
+    	 	if (_levels.IndexOf(_currentLevel) < _levels.Count-1)
+            	{
+    	 	  _nextResults.gameObject.SetActive(true);
+    		  _reloadResults.gameObject.SetActive(false);
+            	}
+	    	else
+	    	{
+    		  _nextResults.gameObject.SetActive(false);
+    		  _reloadResults.gameObject.SetActive(false); 
+
+    	 	}
+    	 }
          GameManager.PT_uiManager.DisplayResults();
     }
     
@@ -145,28 +169,21 @@ public class LevelManager : MonoBehaviour
     {
     	if (_playerTransform.position.x > 200/*|| hero n'a plus de vie */) 
     	{
-    		_currentLevel.IsLevelDone = true;
-    		displayResult(" Perdu !", "Recommencer");
-    		_nextResults.gameObject.SetActive(false);
-    		_reloadResults.gameObject.SetActive(true);
+    		if (! isResultDisplay)
+    		{
+    			displayResult(" Perdu !", "Recommencer");
+    		}
     	}
     	
     	if (_playerTransform.position.x >= 100) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
-            _currentLevel.IsLevelDone = true;
-            displayResult(" Gagne !", "Niveau Suivant");
-            if (_levels.IndexOf(_currentLevel) < _levels.Count-1)
-            {
-    		_nextResults.gameObject.SetActive(true);
-    		_reloadResults.gameObject.SetActive(false);
-            }
-	    else
-	    {
-    		_nextResults.gameObject.SetActive(false);
-    		_reloadResults.gameObject.SetActive(false); 
-	    }
-            //gagne un bonus EnDeux ?
-            //Augmente les statistiques du joueur
+        	if (! isResultDisplay)
+    		{
+		    _currentLevel.IsLevelDone = true;
+		    displayResult(" Gagne !", "Niveau Suivant");
+		    //gagne un bonus EnDeux ?
+		    //Augmente les statistiques du joueur
+		}
         }
     }
 }
