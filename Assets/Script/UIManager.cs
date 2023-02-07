@@ -40,6 +40,8 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
+    {
         isSprintOnCooldown = hero.GetComponent<Move>().isSprintOnCooldown();
 
         if(isSprintOnCooldown){
@@ -57,7 +59,6 @@ public class UIManager : MonoBehaviour
         if(timeRemaining > 0){
             canvas.SetActive(true);
             timer_color.GetComponent<Image>().color = new Color32(255,0,0,100);
-            Debug.Log(timeRemaining);
             timer += Time.deltaTime;
             timeRemaining -= (int) timer%60;
             timer_ui.text = "" +timeRemaining;
@@ -66,6 +67,7 @@ public class UIManager : MonoBehaviour
             timer_color.GetComponent<Image>().color = new Color32(128,255,165,255);
             timer = 0;
         }
+    }
     }
 
 }

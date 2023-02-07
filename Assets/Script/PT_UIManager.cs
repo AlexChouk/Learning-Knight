@@ -21,8 +21,11 @@ public class PT_UIManager : MonoBehaviour
     private GameObject resume;
     private GameObject main;
     
+    public bool isPaused;
+    
     [SerializeField] public Camera maincamera;
     [SerializeField] public Camera ingameCamera;
+    
     private GameManager _instance;
     private GameManager GameManager => _instance ??= GameManager.Instance;
 
@@ -30,7 +33,7 @@ public class PT_UIManager : MonoBehaviour
     {
 	resume = GameObject.Find("Txt_Resume");
 	main = GameObject.Find("Background_main");
-        //DisplayMain();
+        DisplayMain();
 	//DisplayIntro();
 	DisplayLevels();
     }
@@ -114,12 +117,11 @@ public class PT_UIManager : MonoBehaviour
 
     public void DisplayMain()
     {
-        DisplayMenu("Main");
-
-	resume.SetActive(false);
-	main.SetActive(true);
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
+	resume.SetActive(false);
+	main.SetActive(true);
+        DisplayMenu("Main");
     }
 
     void Update()
@@ -136,55 +138,63 @@ public class PT_UIManager : MonoBehaviour
 		isIntro = false;	
 	}
     }
-
-    public void DisplayInGame()
-    {
-    	Time.timeScale = 1f;
-	maincamera.gameObject.SetActive(false);
-	ingameCamera.gameObject.SetActive(true);
-        DisplayMenu("InGame");
-    }
     
-    public void DisplayPauseGame()
-    {
-    	Time.timeScale = 0f;
-        DisplayMenu("Pause");
-    }
-    
-    public void DisplayResults()
-    {
-    	Time.timeScale = 0f;
-        DisplayMenu("Results");
-    }
-        
-        
     public void goBackOptions(string name)
     {
     	GameObject.Find(name).SetActive(false);
     }
     
+    public void DisplayInGame()
+    {
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
+    	Time.timeScale = 1f;
+    	isPaused = false;
+    	GameManager.PauseManager.PlayGame();
+        DisplayMenu("InGame");
+    }
+    
+    public void DisplayPauseGame()
+    {
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
+    	Time.timeScale = 0f;
+    	isPaused = true;
+    	GameManager.PauseManager.PauseGame();
+        DisplayMenu("Pause");
+    }
+    
+    public void DisplayResults()
+    {
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
+    	isPaused = true;
+    	Time.timeScale = 0f;
+    	GameManager.PauseManager.PauseGame();
+        DisplayMenu("Results");
+    }
+        
     public void DisplayOptions()
     {
-    	Time.timeScale = 0f;
     	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
-	
+    	isPaused = true;
         ShowElement("Options");	 	
     }
     
     public void DisplayOptionsInGame()
     {
-    	Time.timeScale = 0f;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
+    	isPaused = true;
 	ShowElement("Options_in");
     }
     
     public void DisplayLevels()
     {
-    	Time.timeScale = 0f;
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
+    	isPaused = true;
         DisplayMenu("Levels");
     }
 }

@@ -9,24 +9,24 @@ public class FocusCamera : MonoBehaviour
     private Move knightMove;
 
     private GameManager gm;
-
     private Camera cam;
-
     private Vector3 camPos;
 
     private float camSize;
 
     // Start is called before the first frame update
-    void Start()
+    public void StartCamera()
     {
         knightMove = knight.GetComponent<Move>();
         camSpeed = knightMove.speed;
-        transform.position = new Vector3(knight.transform.position.x + camSpeed + 15, transform.position.y, -15);
+        transform.position = new Vector3(knight.transform.position.x + camSpeed + 110, transform.position.y, -15);
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
+    {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
     {
         camSpeed = knightMove.speed;
         if(! gm.isCurrentlyFighting()){
@@ -35,6 +35,7 @@ public class FocusCamera : MonoBehaviour
         else{
             startFightFocus();
         }
+     }
     }
 
     void startFightFocus(){
@@ -47,8 +48,8 @@ public class FocusCamera : MonoBehaviour
         camSize = cam.orthographicSize;
         camPos = gameObject.transform.position;
         float x = enemy.transform.position.x - hero.transform.position.x;
-        gameObject.transform.position = new Vector3(hero.transform.position.x + x/2,-21,-11);
-        cam.orthographicSize = 6;
+        gameObject.transform.position = new Vector3(hero.transform.position.x + x/2,hero.transform.position.y+10,-11);
+        cam.orthographicSize = 50;
 
     }
 

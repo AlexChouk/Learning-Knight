@@ -8,20 +8,31 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] soundtrack;
     public Slider volumeSlider;
     
-    public GameObject audio;
+    public GameObject audioObject;
 
     AudioSource audioSource;
+    private float volume = 0.4f;
 
+    public float audioVolume {
+        get
+        {
+            return PlayerPrefs.GetFloat(".audioVolume");
+        }
+        set
+        {
+            PlayerPrefs.SetFloat(".audioVolume", volume);
+        }
+    }
+    
     void Awake()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(audioObject.gameObject);
     }
 
-    // Use this for initialization
     void Start()
     {
     	
-        audioSource = audio.GetComponent<AudioSource>();
+        audioSource = audioObject.GetComponent<AudioSource>();
 
         if (!audioSource.playOnAwake)
         {
@@ -30,7 +41,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!audioSource.isPlaying)
@@ -49,6 +59,7 @@ public class AudioManager : MonoBehaviour
     //Called when Slider is moved
     void changeVolume(float sliderValue)
     {
+    	volume = sliderValue;
         audioSource.volume = sliderValue;
     }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    private static float DEFAULT_SPEED = 3.0f;
-    private static float SPRINT_SPEED = 6.0f;
-    public float speed = 0;
+    private static float DEFAULT_SPEED = 0.2f;
+    private static float SPRINT_SPEED = 0.8f;
+    public float speed;
     public bool isSprinting = false;
     public bool isOnCooldown = false;
     private Jump jump;
@@ -14,19 +14,30 @@ public class Move : MonoBehaviour
     public float sprint_cooldown;
 
     public GameManager gm;
+    
+    public Coroutine startSprintCoroutine = null;
+    public Coroutine coolDownCoroutine = null;
 
     void Awake()
     {
         jump = gameObject.GetComponent<Jump>();
         slide = gameObject.GetComponent<Slide>();
         setSpeed(DEFAULT_SPEED);
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();       
     }
 
+    public void ResetSprint()
+    {
+    	if (startSprintCoroutine != null) StopCoroutine(startSprintCoroutine);
+    	if (coolDownCoroutine != null) StopCoroutine(coolDownCoroutine);
+    	isSprinting = false;
+    	isOnCooldown = false;
+    }
 
     // Update is called once per frame
     void Update()
+    {
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
     {
         if(! gm.isCurrentlyFighting())
             transform.position = new Vector2(transform.position.x + speed, transform.position.y);
@@ -35,13 +46,14 @@ public class Move : MonoBehaviour
             setSpeed(DEFAULT_SPEED);
         }
         
-        if (Input.GetButtonDown("Fire1") && !isOnCooldown && ! gm.isCurrentlyFighting())
+        if (Input.GetKeyDown(KeyCode.S) && !isOnCooldown && ! gm.isCurrentlyFighting())
         {
             if(! jump.isJumping && ! slide.isSliding){
                 isSprinting = true;
-                StartCoroutine(StartSprint());
+                startSprintCoroutine = StartCoroutine(StartSprint());
             }
         }
+       }
     }
 
     public IEnumerator StartSprint() {
@@ -49,7 +61,7 @@ public class Move : MonoBehaviour
             yield return new WaitForSeconds(1f);
             isSprinting = false;
             isOnCooldown = true;
-            StartCoroutine(SprintCooldown());
+            coolDownCoroutine = StartCoroutine(SprintCooldown());
     }
 
     public IEnumerator SprintCooldown(){
@@ -59,7 +71,7 @@ public class Move : MonoBehaviour
 
 
     public void setSpeed(float sp){
-        speed = sp/50;
+        speed = sp;///50;
     }
 
     public bool isSprintOnCooldown(){
