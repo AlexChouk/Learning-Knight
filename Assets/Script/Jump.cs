@@ -7,7 +7,7 @@ public class Jump : MonoBehaviour
     [SerializeField] private LayerMask groundLayerMask;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider2D;
-    public float jumpSpeed = 2.0f;
+    public float jumpSpeed = 1.0f;
     
     public bool isJumping = false;
     private Slide slide;
@@ -24,7 +24,7 @@ public class Jump : MonoBehaviour
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.Space) && !isGrounded() && !gm.isCurrentlyFighting()){
+        if(Input.GetKeyDown(KeyCode.J) && !isGrounded() && !gm.isCurrentlyFighting()){
             if(!slide.isSliding && !move.isSprinting){
                 rb.velocity = Vector2.up * jumpSpeed;
             }

@@ -168,7 +168,7 @@ public class LevelManager : MonoBehaviour
     
     void Update() 
     {
-    	if (_playerTransform.position.x > 500/*|| hero n'a plus de vie */) 
+    	if (_playerTransform.position.x > 600/*|| hero n'a plus de vie */) 
     	{
     		if (! isResultDisplay)
     		{
@@ -176,7 +176,7 @@ public class LevelManager : MonoBehaviour
     		}
     	}
     	
-    	if (_playerTransform.position.x >= 600) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
+    	if (_playerTransform.position.x >= 500) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
         	if (! isResultDisplay)
     		{
