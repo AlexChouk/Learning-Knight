@@ -33,9 +33,9 @@ public class PT_UIManager : MonoBehaviour
     {
 	resume = GameObject.Find("Txt_Resume");
 	main = GameObject.Find("Background_main");
-        //DisplayMain();
-	//DisplayIntro();
-	DisplayLevels();
+        DisplayMain();
+	DisplayIntro();
+	//DisplayLevels();
     }
     
     private void ClearElements()
@@ -117,14 +117,11 @@ public class PT_UIManager : MonoBehaviour
 
     public void DisplayMain()
     {
-        DisplayMenu("Main");
-    	Time.timeScale = 0f;
-    	isPaused = true;
-
-	resume.SetActive(false);
-	main.SetActive(true);
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
+	resume.SetActive(false);
+	main.SetActive(true);
+        DisplayMenu("Main");
     }
 
     void Update()
@@ -141,18 +138,25 @@ public class PT_UIManager : MonoBehaviour
 		isIntro = false;	
 	}
     }
-
+    
+    public void goBackOptions(string name)
+    {
+    	GameObject.Find(name).SetActive(false);
+    }
+    
     public void DisplayInGame()
     {
-    	Time.timeScale = 1f;
-    	isPaused = false;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
+    	Time.timeScale = 1f;
+    	isPaused = false;
         DisplayMenu("InGame");
     }
     
     public void DisplayPauseGame()
     {
+	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
     	Time.timeScale = 0f;
     	isPaused = true;
         DisplayMenu("Pause");
@@ -160,26 +164,17 @@ public class PT_UIManager : MonoBehaviour
     
     public void DisplayResults()
     {
-    	maincamera.gameObject.SetActive(false);
+	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
-    	Time.timeScale = 0f;
     	isPaused = true;
         DisplayMenu("Results");
     }
         
-        
-    public void goBackOptions(string name)
-    {
-    	GameObject.Find(name).SetActive(false);
-    }
-    
     public void DisplayOptions()
     {
     	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
-    	Time.timeScale = 0f;
     	isPaused = true;
-	
         ShowElement("Options");	 	
     }
     
@@ -187,7 +182,6 @@ public class PT_UIManager : MonoBehaviour
     {
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
-    	Time.timeScale = 0f;
     	isPaused = true;
 	ShowElement("Options_in");
     }
@@ -196,7 +190,6 @@ public class PT_UIManager : MonoBehaviour
     {
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
-    	Time.timeScale = 0f;
     	isPaused = true;
         DisplayMenu("Levels");
     }
