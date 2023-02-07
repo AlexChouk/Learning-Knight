@@ -124,6 +124,7 @@ public class LevelManager : MonoBehaviour
         _playerTransform.position = level.PlayerSpawn;
         GameManager.UiManager.timeRemaining = 0;
         _playerParent.transform.GetChild(0).GetComponent<Move>().ResetSprint();
+        _playerParent.transform.GetChild(0).GetComponent<Slide>().ResetSlide();
         GameCamera.StartCamera();
     }
     

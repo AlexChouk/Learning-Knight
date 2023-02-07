@@ -15,7 +15,17 @@ public class Slide : MonoBehaviour
     private Jump jump;
     private Move move;
     private GameManager gm;
+    
+    
+    public Coroutine startSlideCoroutine = null;
 
+    public void ResetSlide()
+    {
+    	if (startSlideCoroutine != null) StopCoroutine(startSlideCoroutine);
+        transform.eulerAngles = new Vector3(0,0,0);
+    	resetStats();
+    }
+    
     public bool slideCompleted;
     // Start is called before the first frame update
     void Start()
@@ -43,7 +53,7 @@ public class Slide : MonoBehaviour
 
         if(isUnderBlockBool && isSliding){
             Debug.Log("lets continue");
-            StartCoroutine(startSlide());
+            startSlideCoroutine = StartCoroutine(startSlide());
         }
         
         if(isSliding && !isUnderBlockBool && slideCompleted){
@@ -53,7 +63,7 @@ public class Slide : MonoBehaviour
         }
     }
 
-    void resetStats(){
+    void resetStats() {
         isSliding = false;
         slideCompleted = false;
         isUnderBlockBool = false;
@@ -64,7 +74,7 @@ public class Slide : MonoBehaviour
             isSliding = true;
             transform.eulerAngles = new Vector3(0,0,90);
         }
-            StartCoroutine(startSlide());
+            startSlideCoroutine =StartCoroutine(startSlide());
     }
 
     IEnumerator startSlide(){
