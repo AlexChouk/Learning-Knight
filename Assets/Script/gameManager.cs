@@ -2,19 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class gameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private bool isFighting = false;
     private GameObject Hero;
     private GameObject Enemy;
 
+    public static GameManager Instance;
+ 	
+    [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private PT_UIManager _pt_uiManager;
+    [SerializeField] private PauseManager _pauseManager;
+    	
+    public LevelManager LevelManager => _levelManager;
+    public PT_UIManager PT_uiManager => _pt_uiManager;
+    public PauseManager PauseManager => _pauseManager;
+    
+    private void InitializeSingleton() {
+	if(Instance) 
+	{
+		Debug.LogWarning("Singleton of GameManager already Initialized");
+	}
+	Instance = this;
+    }
+	
     void Awake()
     {
+    	InitializeSingleton();
         Hero = GameObject.FindGameObjectWithTag("Hero");
     }
-
-    
-
 
     public void setFight(bool fight){
         isFighting = fight;
@@ -24,7 +40,6 @@ public class gameManager : MonoBehaviour
         return isFighting;
     }
 
-    
     public void setEnemy(GameObject enemy){
         Enemy = enemy;
     }
