@@ -156,11 +156,12 @@ public class PT_UIManager : MonoBehaviour
     	Time.timeScale = 0f;
     	isPaused = true;
         DisplayMenu("Pause");
-        print(Time.timeScale);
     }
     
     public void DisplayResults()
     {
+    	maincamera.gameObject.SetActive(false);
+	ingameCamera.gameObject.SetActive(true);
     	Time.timeScale = 0f;
     	isPaused = true;
         DisplayMenu("Results");
@@ -174,29 +175,29 @@ public class PT_UIManager : MonoBehaviour
     
     public void DisplayOptions()
     {
-    	Time.timeScale = 0f;
-    	isPaused = true;
     	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
+    	Time.timeScale = 0f;
+    	isPaused = true;
 	
         ShowElement("Options");	 	
     }
     
     public void DisplayOptionsInGame()
     {
-    	Time.timeScale = 0f;
-    	isPaused = true;
 	maincamera.gameObject.SetActive(false);
 	ingameCamera.gameObject.SetActive(true);
+    	Time.timeScale = 0f;
+    	isPaused = true;
 	ShowElement("Options_in");
     }
     
     public void DisplayLevels()
     {
-    	Time.timeScale = 0f;
-    	isPaused = true;
 	maincamera.gameObject.SetActive(true);
 	ingameCamera.gameObject.SetActive(false);
+    	Time.timeScale = 0f;
+    	isPaused = true;
         DisplayMenu("Levels");
     }
 }

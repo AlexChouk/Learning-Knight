@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    private static float DEFAULT_SPEED = 3.0f;
-    private static float SPRINT_SPEED = 6.0f;
-    public float speed = 0;
+    private static float DEFAULT_SPEED = 1.0f;
+    private static float SPRINT_SPEED = 4.0f;
+    public float speed;
     public bool isSprinting = false;
     public bool isOnCooldown = false;
     private Jump jump;
@@ -20,8 +20,7 @@ public class Move : MonoBehaviour
         jump = gameObject.GetComponent<Jump>();
         slide = gameObject.GetComponent<Slide>();
         setSpeed(DEFAULT_SPEED);
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();       
     }
 
 
@@ -37,7 +36,7 @@ public class Move : MonoBehaviour
             setSpeed(DEFAULT_SPEED);
         }
         
-        if (Input.GetButtonDown("Fire1") && !isOnCooldown && ! gm.isCurrentlyFighting())
+        if (Input.GetKeyDown(KeyCode.S) && !isOnCooldown && ! gm.isCurrentlyFighting())
         {
             if(! jump.isJumping && ! slide.isSliding){
                 isSprinting = true;
@@ -62,7 +61,7 @@ public class Move : MonoBehaviour
 
 
     public void setSpeed(float sp){
-        speed = sp/50;
+        speed = sp;///50;
     }
 
     public bool isSprintOnCooldown(){

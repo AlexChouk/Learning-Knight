@@ -9,19 +9,17 @@ public class FocusCamera : MonoBehaviour
     private Move knightMove;
 
     private GameManager gm;
-
     private Camera cam;
-
     private Vector3 camPos;
 
     private float camSize;
 
     // Start is called before the first frame update
-    void Start()
+    public void StartCamera()
     {
         knightMove = knight.GetComponent<Move>();
         camSpeed = knightMove.speed;
-        transform.position = new Vector3(knight.transform.position.x + camSpeed + 15, transform.position.y, -15);
+        transform.position = new Vector3(knight.transform.position.x + camSpeed + 110, transform.position.y, -15);
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 

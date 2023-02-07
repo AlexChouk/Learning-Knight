@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LevelManager : MonoBehaviour
@@ -15,6 +16,9 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI _resultsText;
     [SerializeField] private TextMeshProUGUI _resultsButtonText;
+    
+    [SerializeField] private Button _nextResults;
+    public FocusCamera GameCamera;
          
     private Level _currentLevel;
     
@@ -43,6 +47,15 @@ public class LevelManager : MonoBehaviour
 	    levelButtonUI.SetLevelButton(l);
 	   }
         }
+    }
+    
+    public Level NextLevel(int id)
+    {
+    	int levelCount = _levels.Count;
+        if (levelCount == 0) throw new ArgumentOutOfRangeException("There are no levels!");
+        if (id < 0) id = -id;
+        if(id >= levelCount) id = id % levelCount;
+        return(_levels[id+1]);
     }
     
     private Level GetLevelFromName(string levelName) 
@@ -92,6 +105,8 @@ public class LevelManager : MonoBehaviour
         CreateLevel(level);
         _playerParent.gameObject.SetActive(true);
         _playerTransform.position = level.PlayerSpawn;
+        GameCamera.StartCamera();
+    	_nextResults.onClick.RemoveAllListeners();
     }
     
     public void ReloadLevel() 
@@ -107,18 +122,29 @@ public class LevelManager : MonoBehaviour
          GameManager.PT_uiManager.DisplayResults();
     }
     
+    private void LoadNextLevel()
+    {
+	GameManager.PT_uiManager.DisplayInGame();
+    	LoadLevel(NextLevel(_levels.IndexOf(_currentLevel)));
+    }
+    
     void Update() 
     {
-    	if (_playerTransform.position.x > 300/*|| hero n'a plus de vie */) 
+    	if (_playerTransform.position.x > 100/*|| hero n'a plus de vie */) 
     	{
     		_currentLevel.IsLevelDone = true;
     		displayResult(" Perdu !", "Recommencer");
+            _nextResults.onClick.AddListener(() => ReloadLevel());
     	}
     	
-    	if (_playerTransform.position.x >= 300) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
+    	if (_playerTransform.position.x >= 100) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
             _currentLevel.IsLevelDone = true;
-            displayResult(" Gagné !", "Niveau Suivant");
+            displayResult(" Gagne !", "Niveau Suivant");
+            if (_levels.IndexOf(_currentLevel) != _levels.Count)
+            {
+            	_nextResults.onClick.AddListener(() => LoadNextLevel());
+            }
             //gagne un bonus EnDeux ?
             //Augmente les statistiques du joueur
         }

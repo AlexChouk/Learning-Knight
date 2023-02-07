@@ -13,9 +13,7 @@ public class Slide : MonoBehaviour
     [SerializeField] public LayerMask groundLayerMask;
 
     private Jump jump;
-
     private Move move;
-
     private GameManager gm;
 
     public bool slideCompleted;
