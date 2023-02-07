@@ -7,7 +7,7 @@ public class Move : MonoBehaviour
     //private static float DEFAULT_SPEED = 0.2f;
     //private static float SPRINT_SPEED = 0.8f;
     private static float DEFAULT_SPEED = 2.0f;
-    private static float SPRINT_SPEED = 2.2f;
+    private static float SPRINT_SPEED = 3.0f;
     public float speed;
     public bool isSprinting = false;
     public bool isOnCooldown = false;
