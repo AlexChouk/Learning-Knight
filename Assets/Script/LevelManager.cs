@@ -15,7 +15,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform _levelButtonParent;
     
     [SerializeField] private TextMeshProUGUI _resultsText;
-    [SerializeField] private TextMeshProUGUI _resultsButtonText;
     
     [SerializeField] private Button _nextResults;
     [SerializeField] private Button _reloadResults;
@@ -134,10 +133,9 @@ public class LevelManager : MonoBehaviour
         LoadLevel(_currentLevel);
     }
     
-    private void displayResult(string res, string button) 
+    private void displayResult(string res) 
     {
          _resultsText.text = res;
-         _resultsButtonText.text = button;
     	 isResultDisplay = true;
          
          if (_resultsText.text == "Perdu")
@@ -174,7 +172,7 @@ public class LevelManager : MonoBehaviour
     	{
     		if (! isResultDisplay)
     		{
-    			displayResult(" Perdu !", "Recommencer");
+    			displayResult("Perdu");
     		}
     	}
     	
@@ -183,7 +181,7 @@ public class LevelManager : MonoBehaviour
         	if (! isResultDisplay)
     		{
 		    _currentLevel.IsLevelDone = true;
-		    displayResult(" Gagne !", "Niveau Suivant");
+		    displayResult("Gagne !");
 		    //gagne un bonus EnDeux ?
 		    //Augmente les statistiques du joueur
 		}
