@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _resultsButtonText;
     
     [SerializeField] private Button _nextResults;
+    [SerializeField] private Button _reloadResults;
     public FocusCamera GameCamera;
          
     private Level _currentLevel;
@@ -47,15 +48,6 @@ public class LevelManager : MonoBehaviour
 	    levelButtonUI.SetLevelButton(l);
 	   }
         }
-    }
-    
-    public Level NextLevel(int id)
-    {
-    	int levelCount = _levels.Count;
-        if (levelCount == 0) throw new ArgumentOutOfRangeException("There are no levels!");
-        if (id < 0) id = -id;
-        if(id >= levelCount) id = id % levelCount;
-        return(_levels[id+1]);
     }
     
     private Level GetLevelFromName(string levelName) 
@@ -92,6 +84,28 @@ public class LevelManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+    
+    public Level GetNextLevelFromCurrent()
+    {
+    	int levelCount = _levels.Count;
+    	if (levelCount == 0) throw new ArgumentOutOfRangeException("There are no levels!");
+        int i = 0;
+        int index = 0;
+     	
+     	foreach (Level l in _levels) 
+        {
+           	if (GetLevelFromName(_currentLevel.name) == l)
+           	{
+           		index = i;
+           	}
+           	i = i+1;
+        }
+        index = index+1;
+        if (index < 0) index = -index;
+        if(index >= levelCount) index = index % levelCount;
+        return _levels[index];
+    }
+    
 
     public void LoadLevel(int levelId) 
     {
@@ -106,7 +120,6 @@ public class LevelManager : MonoBehaviour
         _playerParent.gameObject.SetActive(true);
         _playerTransform.position = level.PlayerSpawn;
         GameCamera.StartCamera();
-    	_nextResults.onClick.RemoveAllListeners();
     }
     
     public void ReloadLevel() 
@@ -122,29 +135,36 @@ public class LevelManager : MonoBehaviour
          GameManager.PT_uiManager.DisplayResults();
     }
     
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
 	GameManager.PT_uiManager.DisplayInGame();
-    	LoadLevel(NextLevel(_levels.IndexOf(_currentLevel)));
+    	LoadLevel(GetNextLevelFromCurrent());
     }
     
     void Update() 
     {
-    	if (_playerTransform.position.x > 100/*|| hero n'a plus de vie */) 
+    	if (_playerTransform.position.x > 200/*|| hero n'a plus de vie */) 
     	{
     		_currentLevel.IsLevelDone = true;
     		displayResult(" Perdu !", "Recommencer");
-            _nextResults.onClick.AddListener(() => ReloadLevel());
+    		_nextResults.gameObject.SetActive(false);
+    		_reloadResults.gameObject.SetActive(true);
     	}
     	
     	if (_playerTransform.position.x >= 100) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
             _currentLevel.IsLevelDone = true;
             displayResult(" Gagne !", "Niveau Suivant");
-            if (_levels.IndexOf(_currentLevel) != _levels.Count)
+            if (_levels.IndexOf(_currentLevel) < _levels.Count-1)
             {
-            	_nextResults.onClick.AddListener(() => LoadNextLevel());
+    		_nextResults.gameObject.SetActive(true);
+    		_reloadResults.gameObject.SetActive(false);
             }
+	    else
+	    {
+    		_nextResults.gameObject.SetActive(false);
+    		_reloadResults.gameObject.SetActive(false); 
+	    }
             //gagne un bonus EnDeux ?
             //Augmente les statistiques du joueur
         }
