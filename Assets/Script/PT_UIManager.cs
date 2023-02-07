@@ -36,6 +36,7 @@ public class PT_UIManager : MonoBehaviour
         DisplayMain();
 	//DisplayIntro();
 	DisplayLevels();
+
     }
     
     private void ClearElements()

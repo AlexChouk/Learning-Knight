@@ -25,7 +25,6 @@ public class Jump : MonoBehaviour
 
     void Update(){
         if(Input.GetKeyDown(KeyCode.J) && !isGrounded() && !gm.isCurrentlyFighting()){
-            Debug.Log("SAUTE");
             if(!slide.isSliding && !move.isSprinting){
                 rb.velocity = Vector2.up * jumpSpeed;
             }
