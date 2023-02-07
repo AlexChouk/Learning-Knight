@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TriggerFight : MonoBehaviour
 {
-    private gameManager gm;
+    private GameManager gm;
     public GameObject Enemy;
     private Camera cam;
 
     void Awake()
     {
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

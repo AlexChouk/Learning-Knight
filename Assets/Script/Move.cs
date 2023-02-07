@@ -14,14 +14,14 @@ public class Move : MonoBehaviour
     private Slide slide;
     public float sprint_cooldown;
 
-    public gameManager gm;
+    public GameManager gm;
 
     void Awake()
     {
         jump = gameObject.GetComponent<Jump>();
         slide = gameObject.GetComponent<Slide>();
         setSpeed(DEFAULT_SPEED);
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         
     }
 

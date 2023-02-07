@@ -11,7 +11,7 @@ public class Jump : MonoBehaviour
     public bool isJumping = false;
     private Slide slide;
 
-    private gameManager gm;
+    private GameManager gm;
     private Move move;
 
     void Awake() {
@@ -19,7 +19,7 @@ public class Jump : MonoBehaviour
         boxCollider2D = gameObject.GetComponent<BoxCollider2D>();
         slide = gameObject.GetComponent<Slide>();   
         move = gameObject.GetComponent<Move>(); 
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update(){

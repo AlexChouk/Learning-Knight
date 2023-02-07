@@ -8,7 +8,6 @@ using TMPro;
 
 public class QuestionManager : MonoBehaviour
 {
-
     private string pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
     private string fileData;
     private string[] lines;
@@ -27,14 +26,34 @@ public class QuestionManager : MonoBehaviour
     private Button _ans3;
     private Button _ans4;
     private TextMeshProUGUI _question;
+
+	public TextMeshProUGUI CurrentHealth;
+	public TextMeshProUGUI MaxHealth;
     
     private bool isQuestionDisplay;
     private bool isRéponsesDisplay;
     
     public GameObject knight;
     public GameObject Ennemy;
+    public GameObject Questions;
     
     public Timer _timer;
+    private GameManager _instance;
+    private GameManager GameManager => _instance ??= GameManager.Instance;
+    
+    public void setType(string type)
+    {
+    	if (type == "Maths")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	
+    	if (type == "French")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	 
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -45,12 +64,20 @@ public class QuestionManager : MonoBehaviour
         _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
         
-        	startQuestion();
-    }
+        Questions = GameObject.Find("Questions");
 
-    // Update is called once per frame
+		
+    }
+    
     void Update()
     {
+     	
+     	if (GameManager.isCurrentlyFighting())
+     	{
+     		Questions.SetActive(true);
+     	}
+     	Questions.SetActive(false);
+     	
     	if (isQuestionDisplay) {	
 		if (!_timer.TimerIsRunning) {
 			isRéponsesDisplay = true;
@@ -65,6 +92,9 @@ public class QuestionManager : MonoBehaviour
 			isRéponsesDisplay = false;
 		}
      	}   
+
+		CurrentHealth.text = "" + Ennemy.GetComponent<HealthEnnemy>().healthEnnemy_value;
+		MaxHealth.text = "" + Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy;
     }
     
     void ButtonClicked(int buttonNo)
@@ -74,24 +104,43 @@ public class QuestionManager : MonoBehaviour
         {
         	Debug.Log("YES!");
         	_timer.stopTimer();
+        	resetQuestion();
         	//porte le coup si monstre plus de pv repasse en phase exploration sinon continue
+			Ennemy.GetComponent<HealthEnnemy>().takeDamage(5);
+			// Si ennemi mort
+			if(Ennemy.GetComponent<HealthEnnemy>().ennemyDead())
+			{
+				// Héro gagne 5 points de vie
+				knight.GetComponent<Health>().GainLifeHero(5);
+				// Ennemy détruit
+				Destroy(Ennemy);
+				// Retour exploration
+
+			} else 
+			{
+				// Question suivante ? 
+				//ou héro attaqué par ennemi puis question suivante ?
+				float toWin = Mathf.Round(Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy / 2);
+				knight.GetComponent<Health>().DamageLifeHero(toWin);
+
+			}
         }
         else 
         {
         	Debug.Log("No!");
         	//mauvaise réponse -> perdu des points de vie te question suivante
+			knight.GetComponent<Health>().DamageLifeHero(5);
         }
     }
     
-    private void startQuestion() 
+    private void startQuestion(string type) 
     {
-    	
     	//get Type and Niveau from Level choice menu
     	isQuestionDisplay = false;
     	isRéponsesDisplay = false;
         
 	int rand = Range(1, 30);
-        getQuestion(rand);
+        getQuestion(rand, type);
         
         _timer.startTimer(5f);
 	    	
@@ -109,7 +158,7 @@ public class QuestionManager : MonoBehaviour
      	displayRéponses();
     }
     
-    private void getQuestion(int index) 
+    private void getQuestion(int index, string type) 
     {
     	if (System.IO.File.Exists(Application.dataPath+pathFile)) {
     		fileData = System.IO.File.ReadAllText(Application.dataPath+pathFile);
