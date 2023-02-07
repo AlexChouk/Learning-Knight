@@ -9,40 +9,39 @@ public class UIManager : MonoBehaviour
 {
     public GameObject hero; 
     public float sprint_cooldown_duration;
-
     public bool isSprintOnCooldown;
 
     public int timeRemaining = 0;
-    public Image color;
+    public Image timer_color;
 
     private TextMeshProUGUI timer_ui;
 
     private float timer = 0.0f;
 
-    GameObject canvas;
+    private GameObject canvas;
+    private GameObject canvasSprint;
+    private GameObject canvasAth;
 
-    GameObject canvasSprint;
-    GameObject canvasAth;
-
-    private gameManager gm;
+    private GameManager gm;
+    
     void Awake()
     {
-        canvas = GameObject.Find("Timer");
+        canvas = GameObject.Find("TimerSprint");
         canvasSprint = GameObject.Find("SPRINT");
         canvasAth = GameObject.Find("ATH");
         timer_ui = canvas.GetComponent<TextMeshProUGUI>();
         sprint_cooldown_duration = hero.GetComponent<Move>().cooldownDuration();
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void Start() {
         canvas.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+    if (! gm.GetComponent<PT_UIManager>().isPaused)
+    {
         isSprintOnCooldown = hero.GetComponent<Move>().isSprintOnCooldown();
 
         if(isSprintOnCooldown){
@@ -59,16 +58,16 @@ public class UIManager : MonoBehaviour
 
         if(timeRemaining > 0){
             canvas.SetActive(true);
-            color.GetComponent<Image>().color = new Color32(255,0,0,100);
-            Debug.Log(timeRemaining);
+            timer_color.GetComponent<Image>().color = new Color32(255,0,0,100);
             timer += Time.deltaTime;
             timeRemaining -= (int) timer%60;
             timer_ui.text = "" +timeRemaining;
         }else{
             canvas.SetActive(false);
-            color.GetComponent<Image>().color = new Color32(128,255,165,255);
+            timer_color.GetComponent<Image>().color = new Color32(128,255,165,255);
             timer = 0;
         }
+    }
     }
 
 }

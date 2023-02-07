@@ -7,11 +7,12 @@ public class Jump : MonoBehaviour
     [SerializeField] private LayerMask groundLayerMask;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider2D;
-    public int jumpSpeed;
+    private float jumpSpeed = 250.0f;
+    
     public bool isJumping = false;
     private Slide slide;
 
-    private gameManager gm;
+    private GameManager gm;
     private Move move;
 
     void Awake() {
@@ -19,16 +20,17 @@ public class Jump : MonoBehaviour
         boxCollider2D = gameObject.GetComponent<BoxCollider2D>();
         slide = gameObject.GetComponent<Slide>();   
         move = gameObject.GetComponent<Move>(); 
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update(){
-        if(Input.GetKeyDown(KeyCode.Space) && ! isGrounded() && ! gm.isCurrentlyFighting()){
-            if(! slide.isSliding && ! move.isSprinting){
+        if(Input.GetKeyDown(KeyCode.J) && !isGrounded() && !gm.isCurrentlyFighting()){
+            Debug.Log("SAUTE");
+            if(!slide.isSliding && !move.isSprinting){
                 rb.velocity = Vector2.up * jumpSpeed;
             }
         }
-        isJumping = isGrounded();
+        //isJumping = isGrounded();
     }
 
     private bool isGrounded(){

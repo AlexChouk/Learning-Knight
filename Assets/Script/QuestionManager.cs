@@ -8,7 +8,6 @@ using TMPro;
 
 public class QuestionManager : MonoBehaviour
 {
-
     private string pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
     private string fileData;
     private string[] lines;
@@ -33,8 +32,25 @@ public class QuestionManager : MonoBehaviour
     
     public GameObject knight;
     public GameObject Ennemy;
+    public GameObject Questions;
     
     public Timer _timer;
+    private GameManager _instance;
+    private GameManager GameManager => _instance ??= GameManager.Instance;
+    
+    public void setType(string type)
+    {
+    	if (type == "Maths")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	
+    	if (type == "French")
+    	{
+    		pathFile = "/Resources/Learning-Knight_BanqueQuestions.csv";
+    	}
+    	 
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -45,12 +61,18 @@ public class QuestionManager : MonoBehaviour
         _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
         
-        	startQuestion();
+        Questions = GameObject.Find("Questions");
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
+     	
+     	if (GameManager.isCurrentlyFighting())
+     	{
+     		Questions.SetActive(true);
+     	}
+     	Questions.SetActive(false);
+     	
     	if (isQuestionDisplay) {	
 		if (!_timer.TimerIsRunning) {
 			isRéponsesDisplay = true;
@@ -74,6 +96,7 @@ public class QuestionManager : MonoBehaviour
         {
         	Debug.Log("YES!");
         	_timer.stopTimer();
+        	resetQuestion();
         	//porte le coup si monstre plus de pv repasse en phase exploration sinon continue
         }
         else 
@@ -83,15 +106,14 @@ public class QuestionManager : MonoBehaviour
         }
     }
     
-    private void startQuestion() 
+    private void startQuestion(string type) 
     {
-    	
     	//get Type and Niveau from Level choice menu
     	isQuestionDisplay = false;
     	isRéponsesDisplay = false;
         
 	int rand = Range(1, 30);
-        getQuestion(rand);
+        getQuestion(rand, type);
         
         _timer.startTimer(5f);
 	    	
@@ -109,7 +131,7 @@ public class QuestionManager : MonoBehaviour
      	displayRéponses();
     }
     
-    private void getQuestion(int index) 
+    private void getQuestion(int index, string type) 
     {
     	if (System.IO.File.Exists(Application.dataPath+pathFile)) {
     		fileData = System.IO.File.ReadAllText(Application.dataPath+pathFile);
@@ -169,5 +191,11 @@ public class QuestionManager : MonoBehaviour
 	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans4.GetComponentInChildren<TextMeshProUGUI>().text = "";
+    }
+    
+    public void UseEnDeux()
+    {
+    	knight.GetComponent<ObjectManager>().EnDeux(Réponses, vraie);
+    	displayRéponses();
     }
 }

@@ -13,11 +13,19 @@ public class Slide : MonoBehaviour
     [SerializeField] public LayerMask groundLayerMask;
 
     private Jump jump;
-
     private Move move;
+    private GameManager gm;
+    
+    
+    public Coroutine startSlideCoroutine = null;
 
-    private gameManager gm;
-
+    public void ResetSlide()
+    {
+    	if (startSlideCoroutine != null) StopCoroutine(startSlideCoroutine);
+        transform.eulerAngles = new Vector3(0,0,0);
+    	resetStats();
+    }
+    
     public bool slideCompleted;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +36,7 @@ public class Slide : MonoBehaviour
         sp = gameObject.GetComponent<SpriteRenderer>();
         jump = gameObject.GetComponent<Jump>();
         move = gameObject.GetComponent<Move>();
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -45,7 +53,7 @@ public class Slide : MonoBehaviour
 
         if(isUnderBlockBool && isSliding){
             Debug.Log("lets continue");
-            StartCoroutine(startSlide());
+            startSlideCoroutine = StartCoroutine(startSlide());
         }
         
         if(isSliding && !isUnderBlockBool && slideCompleted){
@@ -55,7 +63,7 @@ public class Slide : MonoBehaviour
         }
     }
 
-    void resetStats(){
+    void resetStats() {
         isSliding = false;
         slideCompleted = false;
         isUnderBlockBool = false;
@@ -66,7 +74,7 @@ public class Slide : MonoBehaviour
             isSliding = true;
             transform.eulerAngles = new Vector3(0,0,90);
         }
-            StartCoroutine(startSlide());
+            startSlideCoroutine =StartCoroutine(startSlide());
     }
 
     IEnumerator startSlide(){
