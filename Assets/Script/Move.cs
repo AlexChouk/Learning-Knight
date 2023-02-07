@@ -5,7 +5,7 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
     private static float DEFAULT_SPEED = 1.0f;
-    private static float SPRINT_SPEED = 4.0f;
+    private static float SPRINT_SPEED = 3.0f;
     public float speed;
     public bool isSprinting = false;
     public bool isOnCooldown = false;
@@ -14,6 +14,9 @@ public class Move : MonoBehaviour
     public float sprint_cooldown;
 
     public GameManager gm;
+    
+    public Coroutine startSprintCoroutine = null;
+    public Coroutine coolDownCoroutine = null;
 
     void Awake()
     {
@@ -23,6 +26,13 @@ public class Move : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();       
     }
 
+    public void ResetSprint()
+    {
+    	if (startSprintCoroutine != null) StopCoroutine(startSprintCoroutine);
+    	if (coolDownCoroutine != null) StopCoroutine(coolDownCoroutine);
+    	isSprinting = false;
+    	isOnCooldown = false;
+    }
 
     // Update is called once per frame
     void Update()
@@ -40,7 +50,7 @@ public class Move : MonoBehaviour
         {
             if(! jump.isJumping && ! slide.isSliding){
                 isSprinting = true;
-                StartCoroutine(StartSprint());
+                startSprintCoroutine = StartCoroutine(StartSprint());
             }
         }
        }
@@ -51,7 +61,7 @@ public class Move : MonoBehaviour
             yield return new WaitForSeconds(1f);
             isSprinting = false;
             isOnCooldown = true;
-            StartCoroutine(SprintCooldown());
+            coolDownCoroutine = StartCoroutine(SprintCooldown());
     }
 
     public IEnumerator SprintCooldown(){

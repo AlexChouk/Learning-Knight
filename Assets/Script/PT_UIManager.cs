@@ -150,6 +150,7 @@ public class PT_UIManager : MonoBehaviour
 	ingameCamera.gameObject.SetActive(true);
     	Time.timeScale = 1f;
     	isPaused = false;
+    	GameManager.PauseManager.PlayGame();
         DisplayMenu("InGame");
     }
     
@@ -159,6 +160,7 @@ public class PT_UIManager : MonoBehaviour
 	ingameCamera.gameObject.SetActive(true);
     	Time.timeScale = 0f;
     	isPaused = true;
+    	GameManager.PauseManager.PauseGame();
         DisplayMenu("Pause");
     }
     
@@ -168,6 +170,7 @@ public class PT_UIManager : MonoBehaviour
 	ingameCamera.gameObject.SetActive(true);
     	isPaused = true;
     	Time.timeScale = 0f;
+    	GameManager.PauseManager.PauseGame();
         DisplayMenu("Results");
     }
         

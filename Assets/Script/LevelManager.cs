@@ -122,6 +122,8 @@ public class LevelManager : MonoBehaviour
         CreateLevel(level);
         _playerParent.gameObject.SetActive(true);
         _playerTransform.position = level.PlayerSpawn;
+        GameManager.UiManager.timeRemaining = 0;
+        _playerParent.transform.GetChild(0).GetComponent<Move>().ResetSprint();
         GameCamera.StartCamera();
     }
     
@@ -167,7 +169,7 @@ public class LevelManager : MonoBehaviour
     
     void Update() 
     {
-    	if (_playerTransform.position.x > 200/*|| hero n'a plus de vie */) 
+    	if (_playerTransform.position.x > 500/*|| hero n'a plus de vie */) 
     	{
     		if (! isResultDisplay)
     		{
@@ -175,7 +177,7 @@ public class LevelManager : MonoBehaviour
     		}
     	}
     	
-    	if (_playerTransform.position.x >= 100) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
+    	if (_playerTransform.position.x >= 600) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
         {
         	if (! isResultDisplay)
     		{

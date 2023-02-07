@@ -13658,6 +13658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelManager: {fileID: 1818560717}
   _pt_uiManager: {fileID: 1415743438}
+  _uiManager: {fileID: 1313351935}
   _pauseManager: {fileID: 1415743441}
 --- !u!114 &1415743441
 MonoBehaviour:
