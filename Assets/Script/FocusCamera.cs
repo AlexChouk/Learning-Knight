@@ -13,24 +13,45 @@ public class FocusCamera : MonoBehaviour
     private Vector3 camPos;
 
     private float camSize;
+    private int offsetX = 25;
+    private int deadZoneY = -50;
+    private float offsetY;
 
-    // Start is called before the first frame update
+    private LevelManager lvlManager;
+
+	private void Awake()
+	{
+		cam = gameObject.GetComponent<Camera>();
+		camSize = cam.orthographicSize;
+		camPos = gameObject.transform.position;
+	}
+	
     public void StartCamera()
     {
         knightMove = knight.GetComponent<Move>();
         camSpeed = knightMove.speed;
-        transform.position = new Vector3(knight.transform.position.x + camSpeed + 110, transform.position.y, -15);
+        transform.position = new Vector3(knight.transform.position.x + camSpeed + offsetX, transform.position.y, -15);
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        offsetY = gameObject.transform.position.y;
+        lvlManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
     if (! gm.GetComponent<PT_UIManager>().isPaused)
     {
         camSpeed = knightMove.speed;
+        DeadByBorder();
         if(! gm.isCurrentlyFighting()){
-            transform.position = new Vector3(transform.position.x + camSpeed, transform.position.y, -15);
+            //Debug.Log(offsetY - knight.transform.position.y);
+            if((offsetY - knight.transform.position.y) < 0){
+                transform.position = new Vector3(transform.position.x + camSpeed, offsetY - (offsetY - knight.transform.position.y), -15);
+            }else if((offsetY- knight.transform.position.y) > 70 && (offsetY - knight.transform.position.y) < 90){
+                transform.position = new Vector3(transform.position.x + camSpeed, offsetY + (60 - (offsetY - knight.transform.position.y)), -15);
+            }else{
+                transform.position = new Vector3(transform.position.x + camSpeed, offsetY, -15);
+            }
         }
         else{
             startFightFocus();
@@ -44,18 +65,23 @@ public class FocusCamera : MonoBehaviour
 
 
     void FightMode(GameObject hero, GameObject enemy){
-        cam = gameObject.GetComponent<Camera>();
-        camSize = cam.orthographicSize;
-        camPos = gameObject.transform.position;
         float x = enemy.transform.position.x - hero.transform.position.x;
         gameObject.transform.position = new Vector3(hero.transform.position.x + x/2,hero.transform.position.y+10,-11);
         cam.orthographicSize = 50;
 
     }
 
-    void endFightMode(){
+    public void endFightMode(){
         transform.position = camPos;
         cam.orthographicSize = camSize;
     }
+
+    void DeadByBorder(){
+
+        if(knight.transform.position.x < gameObject.transform.position.x - (cam.orthographicSize + offsetX) - 25 || knight.transform.position.y < deadZoneY){
+            lvlManager.displayResult("Perdu");
+        }
+    }
+
 
 }

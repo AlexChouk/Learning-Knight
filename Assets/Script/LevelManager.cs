@@ -133,7 +133,7 @@ public class LevelManager : MonoBehaviour
         LoadLevel(_currentLevel);
     }
     
-    private void displayResult(string res) 
+    public void displayResult(string res) 
     {
          _resultsText.text = res;
     	 isResultDisplay = true;
@@ -168,23 +168,23 @@ public class LevelManager : MonoBehaviour
     
     void Update() 
     {
-    	/*if (_playerTransform.position.x > 600)/*|| hero n'a plus de vie */ 
-    	//{
-    	//	if (! isResultDisplay)
-    	//	{
-    	//		displayResult("Perdu");
-    	//	}
-    	//}
+    	if (_playerParent.transform.GetChild(0).GetComponent<Health>().health_value <= 0)
+    	{
+    		if (! isResultDisplay)
+    		{
+    			displayResult("Perdu");
+    		}
+    	}
     	
-    	//if (_playerTransform.position.x >= 500) //GameObject.Find("Level/Start_End/endPoint").gameObject.transform.position.x)
-        //{
-        //	if (! isResultDisplay)
-    	//	{
-		//    _currentLevel.IsLevelDone = true;
-		//    displayResult("Gagne !");
+    	/*if (playerParent.transform.GetChild(0).BeatBoss)
+        {
+        	if (! isResultDisplay)
+    		{
+		    _currentLevel.IsLevelDone = true;
+		    displayResult("Gagne !");
 		    //gagne un bonus EnDeux ?
 		    //Augmente les statistiques du joueur
-		//}
-        //}
+		/
+        }*/
     }
 }

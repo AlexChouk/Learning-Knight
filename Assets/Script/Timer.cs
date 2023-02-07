@@ -14,10 +14,10 @@ public class Timer : MonoBehaviour
     public bool _timerIsRunning;
     public bool TimerIsRunning => _timerIsRunning;
     
-    private void Start()
+    private void Awake()
     {
         _timerIsRunning = false;
-        _timeText = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
+        _timeText = GameObject.Find("TimerQuestion").GetComponent<TextMeshProUGUI>();
     }
     
     void Update()

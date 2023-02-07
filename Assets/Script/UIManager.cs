@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
     private void Start() {
         canvas.SetActive(false);
     }
-
+    
     void Update()
     {
     if (! gm.GetComponent<PT_UIManager>().isPaused)
@@ -48,11 +48,11 @@ public class UIManager : MonoBehaviour
             timeRemaining = Mathf.FloorToInt(sprint_cooldown_duration);
         }
 
-        if(! gm.isCurrentlyFighting()){
+        if(!gm.isCurrentlyFighting()){
             canvasAth.SetActive(true);
             canvasSprint.SetActive(true);
         }else{
-            canvasAth.SetActive(false);
+            canvasAth.SetActive(true);
             canvasSprint.SetActive(false);
         }
 

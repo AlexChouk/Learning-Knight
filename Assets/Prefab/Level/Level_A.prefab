@@ -7693,6 +7693,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3976766129851046059}
     m_Modifications:
+    - target: {fileID: 869853758717856832, guid: d651fd57c3ee74d8688e173c5944f01b, type: 3}
+      propertyPath: maxHealthEnnemy
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2201495527271700928, guid: d651fd57c3ee74d8688e173c5944f01b, type: 3}
       propertyPath: m_Name
       value: Ennemi_Boss
