@@ -18,7 +18,7 @@ public class QuestionManager : MonoBehaviour
     
     private string[] Reponses = {"", "", "", ""};
     private string Question = "";
-    private int vraie = 1;
+    private int vraie;
     private int rand;
     
     private Button _ans1;
@@ -59,7 +59,12 @@ public class QuestionManager : MonoBehaviour
         _ans1 = GameObject.Find("Ans1").GetComponent<Button>();
         _ans2 = GameObject.Find("Ans2").GetComponent<Button>();
         _ans3 = GameObject.Find("Ans3").GetComponent<Button>();
-        _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
+        _ans4 = GameObject.Find("Ans4").GetComponent<Button>();  
+        
+     	_ans1.onClick.AddListener(() => ButtonClicked(1));
+     	_ans2.onClick.AddListener(() => ButtonClicked(2));
+     	_ans3.onClick.AddListener(() => ButtonClicked(3));
+     	_ans4.onClick.AddListener(() => ButtonClicked(4));        
         _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();
                 
         isFirstQuestionsDisplay = false;
@@ -108,6 +113,7 @@ public class QuestionManager : MonoBehaviour
         Debug.Log("(" + buttonNo + "," + vraie + ")");
         if (buttonNo == vraie)
         {
+           	Debug.Log("Yes");
            	_question.text = "Bonne réponse !";   
         	_timer.stopTimer();
         	resetQuestion();
@@ -130,11 +136,12 @@ public class QuestionManager : MonoBehaviour
                 else 
                 {
                 startQuestion();
-              }
+              	}	
         }
         else 
         {    
            _question.text = "Mauvaise réponse !";
+           Debug.Log("No");
            //float toWin = Mathf.Round(Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy / 2);
            knight.GetComponent<Health>().DamageLifeHero(5);
            LookKnightHealthAfterQuestion();
@@ -156,20 +163,16 @@ public class QuestionManager : MonoBehaviour
         
     private void startQuestion() 
     {     
-        _timer.startTimer(3f);
         resetQuestion();
         getQuestion("");
+	_timer.startTimer(3f);
 	displayQuestion();	
     }
     
     private void startReponses()
     {
 	_timer.startTimer(10f);
-     	_ans1.onClick.AddListener(() => ButtonClicked(1));
-     	_ans2.onClick.AddListener(() => ButtonClicked(2));
-     	_ans3.onClick.AddListener(() => ButtonClicked(3));
-     	_ans4.onClick.AddListener(() => ButtonClicked(4));
-     	displayRéponses();
+     	displayReponses();
     }
     
     private void getQuestion(string niveau) 
@@ -184,18 +187,17 @@ public class QuestionManager : MonoBehaviour
 	    	Niveau = lineData[1];
 	    	Question = lineData[2];
 	    	
-	    	rand = Range(0,3);
-	    	vraie = rand + 1;
-	    	Debug.Log(vraie);
+	    	rand = Range(0,4);
 	    	Reponses[rand] = lineData[3];
-	    	if (rand == 3) rand = 0;
-	    	else rand = rand+1;
+	    	rand = rand + 1;
+	    	vraie = rand;
+	    	if (rand == 4) rand = 0;
 	    	Reponses[rand] = lineData[4];
-	    	if (rand == 3) rand = 0;
-	    	else rand = rand+1;
+	    	rand = rand + 1;
+	    	if (rand == 4) rand = 0;
 	    	Reponses[rand] = lineData[5];
-	    	if (rand == 3) rand = 0;
-	    	else rand = rand+1;
+	    	rand = rand + 1;
+	    	if (rand == 4) rand = 0;
 	    	Reponses[rand] = lineData[6];
 	    	 	
 	    } else {
@@ -209,7 +211,7 @@ public class QuestionManager : MonoBehaviour
 	isQuestionDisplay = true;
     }
     
-    private void displayRéponses()
+    private void displayReponses()
     {
     	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[0];
 	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[1];
@@ -221,7 +223,6 @@ public class QuestionManager : MonoBehaviour
     
     private void resetQuestion()
     {
-	_timer.reset(3f);
     	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = "";
@@ -233,6 +234,6 @@ public class QuestionManager : MonoBehaviour
     public void UseEnDeux()
     {
     	knight.GetComponent<ObjectManager>().EnDeux(Reponses, vraie);
-    	displayRéponses();
+    	displayReponses();
     }
 }

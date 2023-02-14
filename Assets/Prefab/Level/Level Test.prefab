@@ -235,8 +235,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1180588165699390659}
   - {fileID: 8995222589872874182}
+  - {fileID: 1180588165699390659}
   m_Father: {fileID: 8561604325921999275}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25122,7 +25122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3403983777975959008, guid: d651fd57c3ee74d8688e173c5944f01b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3403983777975959008, guid: d651fd57c3ee74d8688e173c5944f01b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25293,7 +25293,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1489604523321073604, guid: 63c52b3f5b0ad4233bd0901d8c56f05e, type: 3}
       propertyPath: maxHealthEnnemy
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 801270253191654638, guid: 63c52b3f5b0ad4233bd0901d8c56f05e, type: 3}
       propertyPath: m_Layer
@@ -25329,7 +25329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5287200155798317710, guid: 63c52b3f5b0ad4233bd0901d8c56f05e, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5287200155798317710, guid: 63c52b3f5b0ad4233bd0901d8c56f05e, type: 3}
       propertyPath: m_LocalScale.x
