@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public void setFight(bool fight){
         isFighting = fight;
     }
-
+    
     public bool isCurrentlyFighting(){
         return isFighting;
     }

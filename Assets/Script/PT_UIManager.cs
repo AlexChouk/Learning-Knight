@@ -35,8 +35,7 @@ public class PT_UIManager : MonoBehaviour
 	main = GameObject.Find("Background_main");
         DisplayMain();
 	//DisplayIntro();
-	DisplayLevels();
-
+	//DisplayLevels();
     }
     
     private void ClearElements()

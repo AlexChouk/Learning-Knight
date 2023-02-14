@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private Button _nextResults;
     [SerializeField] private Button _reloadResults;
+    
     public FocusCamera GameCamera;
          
     private Level _currentLevel;
@@ -107,7 +108,16 @@ public class LevelManager : MonoBehaviour
         return _levels[index];
     }
     
-
+    private List<GameObject> getEnemies()
+    {
+    	List<GameObject> list = new List<GameObject>();
+        for (int i = 0; i< GameObject.Find("Enemies").transform.childCount; i++)
+        {
+               list.Add(GameObject.Find("Enemies").transform.GetChild(i).gameObject);
+        }
+        return list;
+    }
+    
     public void LoadLevel(int levelId) 
     {
         LoadLevel(GetLevelFromId(levelId));
@@ -116,14 +126,23 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel(Level level) 
     {
         _currentLevel = level;
-    	 isResultDisplay = false;
+    	isResultDisplay = false;
         ClearAllLevels();
         CreateLevel(level);
+        
+        GameManager.UiManager.timeRemaining = 0;
         _playerParent.gameObject.SetActive(true);
         _playerTransform.position = level.PlayerSpawn;
-        GameManager.UiManager.timeRemaining = 0;
         _playerParent.transform.GetChild(0).GetComponent<Move>().ResetSprint();
         _playerParent.transform.GetChild(0).GetComponent<Slide>().ResetSlide();
+         
+              
+       	foreach (GameObject t in getEnemies())
+	{
+		t.SetActive(true);
+		t.GetComponent<HealthEnnemy>().healthEnnemy_value = t.GetComponent<HealthEnnemy>().maxHealthEnnemy;
+	}
+       	
         GameCamera.StartCamera();
     }
     
@@ -154,7 +173,6 @@ public class LevelManager : MonoBehaviour
 	    	{
     		  _nextResults.gameObject.SetActive(false);
     		  _reloadResults.gameObject.SetActive(false); 
-
     	 	}
     	 }
          GameManager.PT_uiManager.DisplayResults();
@@ -165,7 +183,7 @@ public class LevelManager : MonoBehaviour
 	GameManager.PT_uiManager.DisplayInGame();
     	LoadLevel(GetNextLevelFromCurrent());
     }
-    
+        
     void Update() 
     {
     	if (_playerParent.transform.GetChild(0).GetComponent<Health>().health_value <= 0)
@@ -175,16 +193,5 @@ public class LevelManager : MonoBehaviour
     			displayResult("Perdu");
     		}
     	}
-    	
-    	/*if (playerParent.transform.GetChild(0).BeatBoss)
-        {
-        	if (! isResultDisplay)
-    		{
-		    _currentLevel.IsLevelDone = true;
-		    displayResult("Gagne !");
-		    //gagne un bonus EnDeux ?
-		    //Augmente les statistiques du joueur
-		/
-        }*/
     }
 }

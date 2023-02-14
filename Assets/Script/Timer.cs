@@ -31,7 +31,6 @@ public class Timer : MonoBehaviour
             }
             else
             {
-                //Debug.Log("Time has run out!");
                 _timeRemaining = 0f;
                 _timerIsRunning = false;
             }
@@ -52,6 +51,12 @@ public class Timer : MonoBehaviour
     public void reset(float number) 
     {
     	_timeRemaining = number;
+    }
+    
+    public void clear(float number)
+    {
+    	stopTimer();
+    	reset(number);
     }
     
     void DisplayTime(float timeToDisplay)

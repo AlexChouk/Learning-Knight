@@ -12,39 +12,38 @@ public class FocusCamera : MonoBehaviour
     private Camera cam;
     private Vector3 camPos;
 
-    private float camSize;
-    private int offsetX = 25;
+    private float camSize = 70;
+    private int offsetX = 20;
     private int deadZoneY = -50;
-    private float offsetY;
+    private float offsetY = 40;
 
     private LevelManager lvlManager;
 
-	private void Awake()
-	{
-		cam = gameObject.GetComponent<Camera>();
-		camSize = cam.orthographicSize;
-		camPos = gameObject.transform.position;
-	}
+    private void Awake()
+    {
+	cam = gameObject.GetComponent<Camera>();
+	camPos = gameObject.transform.position;
+        knightMove = knight.GetComponent<Move>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        lvlManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+    }
 	
+		
     public void StartCamera()
     {
-        knightMove = knight.GetComponent<Move>();
-        camSpeed = knightMove.speed;
-        transform.position = new Vector3(knight.transform.position.x + camSpeed + offsetX, transform.position.y, -15);
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        offsetY = 40;
+        gameObject.transform.position = new Vector3(knight.transform.position.x + camSpeed + offsetX, knight.transform.position.y + offsetY, -15);
         offsetY = gameObject.transform.position.y;
-        lvlManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-
+        cam.orthographicSize = camSize;
     }
 
     void Update()
     {
-    if (! gm.GetComponent<PT_UIManager>().isPaused)
-    {
-        camSpeed = knightMove.speed;
+      if (! gm.GetComponent<PT_UIManager>().isPaused)
+      {
         DeadByBorder();
         if(! gm.isCurrentlyFighting()){
-            //Debug.Log(offsetY - knight.transform.position.y);
+            camSpeed = knightMove.speed;
             if((offsetY - knight.transform.position.y) < 0){
                 transform.position = new Vector3(transform.position.x + camSpeed, offsetY - (offsetY - knight.transform.position.y), -15);
             }else if((offsetY- knight.transform.position.y) > 70 && (offsetY - knight.transform.position.y) < 90){
@@ -56,24 +55,21 @@ public class FocusCamera : MonoBehaviour
         else{
             startFightFocus();
         }
-     }
+      }
     }
 
     void startFightFocus(){
         FightMode(gm.getHero(),gm.getEnemy());
     }
 
-
     void FightMode(GameObject hero, GameObject enemy){
         float x = enemy.transform.position.x - hero.transform.position.x;
         gameObject.transform.position = new Vector3(hero.transform.position.x + x/2,hero.transform.position.y+10,-11);
-        cam.orthographicSize = 50;
-
+        cam.orthographicSize = camSize - offsetX;
     }
 
     public void endFightMode(){
-        transform.position = camPos;
-        cam.orthographicSize = camSize;
+        StartCamera();
     }
 
     void DeadByBorder(){

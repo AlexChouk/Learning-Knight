@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     private GameObject canvas;
     private GameObject canvasSprint;
     private GameObject canvasAth;
+    private GameObject canvasQuestions;
 
     private GameManager gm;
     
@@ -29,6 +30,7 @@ public class UIManager : MonoBehaviour
         canvas = GameObject.Find("TimerSprint");
         canvasSprint = GameObject.Find("SPRINT");
         canvasAth = GameObject.Find("ATH");
+        canvasQuestions = GameObject.Find("Questions");
         timer_ui = canvas.GetComponent<TextMeshProUGUI>();
         sprint_cooldown_duration = hero.GetComponent<Move>().cooldownDuration();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -51,8 +53,10 @@ public class UIManager : MonoBehaviour
         if(!gm.isCurrentlyFighting()){
             canvasAth.SetActive(true);
             canvasSprint.SetActive(true);
+            canvasQuestions.SetActive(false);
         }else{
             canvasAth.SetActive(true);
+            canvasQuestions.SetActive(true);
             canvasSprint.SetActive(false);
         }
 

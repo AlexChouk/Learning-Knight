@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af058317b156bf5059ec45f72f4f08ca, type: 3}
   m_Name: Level_4
   m_EditorClassIdentifier: 
-  _playerSpawn: {x: -10, y: 30, z: 0}
-  _enemySpawn: []
+  _playerSpawn: {x: 0, y: 20, z: 0}
   _levelPrefab: {fileID: 5195708419320839405, guid: d862ff7fee76196459ef1719277a9629, type: 3}
-  _enemyNumber: 5

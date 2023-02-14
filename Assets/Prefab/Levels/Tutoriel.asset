@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af058317b156bf5059ec45f72f4f08ca, type: 3}
   m_Name: Tutoriel
   m_EditorClassIdentifier: 
-  _playerSpawn: {x: 0, y: 30, z: 0}
+  _playerSpawn: {x: 0, y: 20, z: 0}
   _enemySpawn: []
   _levelPrefab: {fileID: 8561604325921999268, guid: 493920712badcf565aad53ce62665de8, type: 3}
   _enemyNumber: 5

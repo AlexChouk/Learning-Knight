@@ -16,7 +16,7 @@ public class QuestionManager : MonoBehaviour
     private string Type;
     private string Niveau;
     
-    private string[] Réponses = {"", "", "", ""};
+    private string[] Reponses = {"", "", "", ""};
     private string Question = "";
     private int vraie = 1;
     private int rand;
@@ -27,16 +27,13 @@ public class QuestionManager : MonoBehaviour
     private Button _ans4;
     private TextMeshProUGUI _question;
     
+    private bool isFirstQuestionsDisplay; //first question when entering fight mode
+    private bool isEnnemyBoss;
     private bool isQuestionDisplay;
-    private bool isRéponsesDisplay;
+    private bool isReponsesDisplay;
     
     public GameObject knight;
-    private GameObject Ennemy;
-    public GameObject Questions;
-    
-    private bool isQuestionsDisplay;
-    
-    private bool isEnnemyBoss;
+    private GameObject Ennemy;    
     
     public Timer _timer;
     private GameManager _instance;
@@ -44,23 +41,18 @@ public class QuestionManager : MonoBehaviour
     
     public TextMeshProUGUI CurrentHealth;
     public TextMeshProUGUI MaxHealth;
-           
+               
     public void setType(string type)
     {
     	Type = type;
-    	if (type == "Maths")
-    	{
+    	if (Type == "Maths")
     		pathFile = "/Resources/Learning Knight - Banque questions - Mathématiques.csv";
-    	}
     	
-    	if (type == "French")
-    	{
+    	if (Type == "French")
     		pathFile = "/Resources/Learning Knight - Banque questions - Français.csv";
-    	}
     	 
     }
     
-    // Start is called before the first frame update
     void Start()
     {	
     	setType("Maths");
@@ -68,183 +60,144 @@ public class QuestionManager : MonoBehaviour
         _ans2 = GameObject.Find("Ans2").GetComponent<Button>();
         _ans3 = GameObject.Find("Ans3").GetComponent<Button>();
         _ans4 = GameObject.Find("Ans4").GetComponent<Button>();          
-        _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();	
-        
-        Questions = GameObject.Find("Questions");
-        isQuestionsDisplay = false;
+        _question = GameObject.Find("Question").GetComponent<TextMeshProUGUI>();
+                
+        isFirstQuestionsDisplay = false;
         isEnnemyBoss = false;
-     	Questions.SetActive(false);
+        resetQuestion();
     }
     
     void Update()
     {
-      if (! GameManager.GetComponent<PT_UIManager>().isPaused)
+      if (! GameManager.GetComponent<PT_UIManager>().isPaused && GameManager.isCurrentlyFighting())
       {
-     	if (GameManager.isCurrentlyFighting())
+     	if (!isFirstQuestionsDisplay)
      	{
-     		if (!isQuestionsDisplay)
-     		{
-     			Questions.SetActive(true);
-	     		startQuestion(Type);
-	     		isQuestionsDisplay = true;
-	     		Ennemy = GameManager.getEnemy();
-	     		if (Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy >= 30) isEnnemyBoss = true;
-	       	        displayEnnemyHealth();
-	     	}
-     	}
+	     	Ennemy = GameManager.getEnemy();
+	     	displayEnnemyHealth();
+		if (Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy >= 30) isEnnemyBoss = true; 
+	     	isFirstQuestionsDisplay = true;    
+	     	startQuestion();
+	}
      	     	
-    	if (isQuestionDisplay) {	
-		if (!_timer.TimerIsRunning) {
-			isRéponsesDisplay = true;
-			isQuestionDisplay = false;
-			startRéponses();
-		}
-    	}
-    	    	
-     	if (isRéponsesDisplay && !isQuestionDisplay) {
-     		if (!_timer.TimerIsRunning) {
+     	if (isFirstQuestionsDisplay)
+     	{
+     		if (isQuestionDisplay && !isReponsesDisplay && !_timer.TimerIsRunning) startReponses();
+     		
+     		if (isReponsesDisplay && !isQuestionDisplay && !_timer.TimerIsRunning) {
+			_question.text = "Time Run Out";
 			print("Time Run Out");
-			isRéponsesDisplay = false;
+			isReponsesDisplay = false;
 			knight.GetComponent<Health>().DamageLifeHero(5);
-			    if (knight.GetComponent<Health>().health_value <= 0)
-			    {
-			      GameManager.LevelManager.displayResult("Perdu");
-			    }
-			    else
-			    {
-			    	startQuestion(Type);
-			    }
-		}
-     	} 
-    }  
+			LookKnightHealthAfterQuestion();
+			startQuestion();
+     		}
+     	}
+    	    	
+     }
     }
     
-     public void displayEnnemyHealth()
+    public void displayEnnemyHealth()
     { 
         CurrentHealth.text = "" + Ennemy.GetComponent<HealthEnnemy>().healthEnnemy_value;
     	MaxHealth.text = "" + Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy;
     }
     
-    
     void ButtonClicked(int buttonNo)
     {
-        Debug.Log("Button clicked = " + buttonNo);
-        if (buttonNo == (vraie + 1))
+        Debug.Log("(" + buttonNo + "," + vraie + ")");
+        if (buttonNo == vraie)
         {
-        	Debug.Log("YES!");
+           	_question.text = "Bonne réponse !";   
         	_timer.stopTimer();
         	resetQuestion();
-        	//porte le coup si monstre plus de pv repasse en phase exploration sinon continue
-        	 Ennemy.GetComponent<HealthEnnemy>().takeDamage(5);
-        	 displayEnnemyHealth();
-        	 if(Ennemy.GetComponent<HealthEnnemy>().ennemyDead())
-                 {
-                 	if (isEnnemyBoss) 
-                 	{
-		        	knight.GetComponent<Health>().GainLifeHero(5);
-              			GameManager.LevelManager.displayResult("Gagne !");	
-                 	}
-                 	else
-                 	{
-		        // Héro gagne 5 points de vie
-		        knight.GetComponent<Health>().GainLifeHero(5);
-		        // Ennemy détruit
-		        Ennemy.SetActive(false);
-		        // Retour exploration
-		        _timer.reset(5);
-		        Questions.SetActive(false);
-		        
-		        }
-		        GameObject.Find("GameCamera").GetComponent<FocusCamera>().endFightMode();
-		        
+        	        	
+        	Ennemy.GetComponent<HealthEnnemy>().takeDamage(5);
+        	displayEnnemyHealth();
+        	
+        	if(Ennemy.GetComponent<HealthEnnemy>().ennemyDead())
+                {
+		    knight.GetComponent<Health>().GainLifeHero(5);
+		    Ennemy.SetActive(false);        
+		    GameManager.setFight(false);	
+	   	    isFirstQuestionsDisplay = false;
+	   	    isEnnemyBoss = false;
+	   	    resetQuestion();	
+		    
+		    if (isEnnemyBoss) GameManager.LevelManager.displayResult("Gagne !");
+	   	    GameObject.Find("GameCamera").GetComponent<FocusCamera>().endFightMode();	
                 } 
                 else 
                 {
-                // Question suivante ? 
-                //ou héro attaqué par ennemi puis question suivante ?
-                float toWin = Mathf.Round(Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy / 2);
-                knight.GetComponent<Health>().DamageLifeHero(toWin);
-		startQuestion(Type);
+                startQuestion();
               }
         }
         else 
-        {
-        	Debug.Log("No!");
-        	//mauvaise réponse -> perdu des points de vie te question suivante
-        	
-            knight.GetComponent<Health>().DamageLifeHero(5);
-            if (knight.GetComponent<Health>().health_value <= 0)
-            {
-		GameManager.setFight(false);
-		Questions.SetActive(false);
-                GameManager.LevelManager.displayResult("Perdu");
-            }
-            else
-	    {
-		startQuestion(Type);
-	    }
+        {    
+           _question.text = "Mauvaise réponse !";
+           //float toWin = Mathf.Round(Ennemy.GetComponent<HealthEnnemy>().maxHealthEnnemy / 2);
+           knight.GetComponent<Health>().DamageLifeHero(5);
+           LookKnightHealthAfterQuestion();
         }    
     }
     
-    
-    private void startQuestion(string type) 
+    private void LookKnightHealthAfterQuestion()
     {
-    	//get Type and Niveau from Level choice menu
-    	isQuestionDisplay = false;
-    	isRéponsesDisplay = false;
+     	if (knight.GetComponent<Health>().health_value <= 0)
+        {
+		GameManager.setFight(false);
+	   	isFirstQuestionsDisplay = false;
+	   	isEnnemyBoss = false;
+	   	resetQuestion();
+                GameManager.LevelManager.displayResult("Perdu");
+        }
+        else startQuestion();
+    }
         
-	int rand = Range(1, 30);
-        getQuestion(rand, type);
-        
-        _timer.startTimer(5f);
-	    	
+    private void startQuestion() 
+    {     
+        _timer.startTimer(3f);
+        resetQuestion();
+        getQuestion("");
 	displayQuestion();	
     }
     
-    private void startRéponses()
+    private void startReponses()
     {
 	_timer.startTimer(10f);
      	_ans1.onClick.AddListener(() => ButtonClicked(1));
      	_ans2.onClick.AddListener(() => ButtonClicked(2));
      	_ans3.onClick.AddListener(() => ButtonClicked(3));
      	_ans4.onClick.AddListener(() => ButtonClicked(4));
-     	
      	displayRéponses();
     }
     
-    private void getQuestion(int index, string type) 
+    private void getQuestion(string niveau) 
     {
     	if (System.IO.File.Exists(Application.dataPath+pathFile)) {
     		fileData = System.IO.File.ReadAllText(Application.dataPath+pathFile);
 	    	lines = fileData.Split("\n"[0]);
-	    	lineData = (lines[index].Trim()).Split(","[0]);
+		rand = Range(0, lines.Length);
+	    	lineData = (lines[rand].Trim()).Split(","[0]);
 	    	
 	    	Type = lineData[0];
 	    	Niveau = lineData[1];
 	    	Question = lineData[2];
 	    	
-	    	Réponses[0] = lineData[3];
-	    	Réponses[1] = lineData[4];
-	    	Réponses[2] = lineData[5];
-	    	Réponses[3] = lineData[6];
-	    
-            	int i = 0;
-	    	while (Array.IndexOf(Réponses, "") != -1)
-	    	{
-	    		do 
-	    		{
-	    			rand = Range(0,3);
-	    		} while (Réponses[rand] != "");
-	    		
-	    		Réponses[rand] = lineData[i];
-	    		i=i+1;
-	    	}
-            	
-            	while (Réponses[i] != lineData[3])
-            	{
-            		i=i+1;
-            	}
-            	vraie = i;    	
+	    	rand = Range(0,3);
+	    	vraie = rand + 1;
+	    	Debug.Log(vraie);
+	    	Reponses[rand] = lineData[3];
+	    	if (rand == 3) rand = 0;
+	    	else rand = rand+1;
+	    	Reponses[rand] = lineData[4];
+	    	if (rand == 3) rand = 0;
+	    	else rand = rand+1;
+	    	Reponses[rand] = lineData[5];
+	    	if (rand == 3) rand = 0;
+	    	else rand = rand+1;
+	    	Reponses[rand] = lineData[6];
+	    	 	
 	    } else {
 	    	Debug.Log("File not found");
 	    }
@@ -258,25 +211,28 @@ public class QuestionManager : MonoBehaviour
     
     private void displayRéponses()
     {
-    	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = Réponses[0];
-	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = Réponses[1];
-	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = Réponses[2];
-	_ans4.GetComponentInChildren<TextMeshProUGUI>().text = Réponses[3];
-	isRéponsesDisplay = true;
+    	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[0];
+	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[1];
+	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[2];
+	_ans4.GetComponentInChildren<TextMeshProUGUI>().text = Reponses[3];
+	isReponsesDisplay = true;
+	isQuestionDisplay = false;
     }
     
     private void resetQuestion()
     {
-	_question.text = "";
-	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = "";
+	_timer.reset(3f);
+    	_ans1.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans2.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans3.GetComponentInChildren<TextMeshProUGUI>().text = "";
 	_ans4.GetComponentInChildren<TextMeshProUGUI>().text = "";
+	isReponsesDisplay = false;
+	isQuestionDisplay = false;
     }
     
     public void UseEnDeux()
     {
-    	knight.GetComponent<ObjectManager>().EnDeux(Réponses, vraie);
+    	knight.GetComponent<ObjectManager>().EnDeux(Reponses, vraie);
     	displayRéponses();
     }
 }
