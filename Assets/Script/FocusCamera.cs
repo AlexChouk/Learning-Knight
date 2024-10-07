@@ -8,7 +8,7 @@ public class FocusCamera : MonoBehaviour
     public float camSpeed;
     private Move knightMove;
 
-    private gameManager gm;
+    private GameManager gm;
 
     private Camera cam;
 
@@ -22,7 +22,7 @@ public class FocusCamera : MonoBehaviour
         knightMove = knight.GetComponent<Move>();
         camSpeed = knightMove.speed;
         transform.position = new Vector3(knight.transform.position.x + camSpeed + 15, transform.position.y, -15);
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame

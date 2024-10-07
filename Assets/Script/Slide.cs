@@ -16,7 +16,7 @@ public class Slide : MonoBehaviour
 
     private Move move;
 
-    private gameManager gm;
+    private GameManager gm;
 
     public bool slideCompleted;
     // Start is called before the first frame update
@@ -28,7 +28,7 @@ public class Slide : MonoBehaviour
         sp = gameObject.GetComponent<SpriteRenderer>();
         jump = gameObject.GetComponent<Jump>();
         move = gameObject.GetComponent<Move>();
-        gm = GameObject.Find("gameManager").GetComponent<gameManager>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
